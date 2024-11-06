@@ -10,7 +10,7 @@ commit_message=$(python3 - <<END
 import subprocess
 import requests
 import json
-from langchain_core.prompts import ChatPromptTemplate
+from langchain.prompts import ChatPromptTemplate
 from langchain_ollama import OllamaLLM
 
 # Configure LLM with local Ollama instance
