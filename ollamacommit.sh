@@ -24,7 +24,7 @@ else
 fi
 
 # 3. Check and install required Python packages
-REQUIRED_PACKAGES=("requests" "langchain_community" "langchain_core")
+REQUIRED_PACKAGES=("requests" "langchain_community" "langchain_core" "langchain-ollama")
 
 echo "Checking for required Python packages..."
 for package in "${REQUIRED_PACKAGES[@]}"; do
