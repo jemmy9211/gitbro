@@ -4,6 +4,9 @@
 command_exists() {
     command -v "$1" &> /dev/null
 }
+VENV_PATH="$HOME/ollama_venv"
+# Activate the virtual environment
+source "$VENV_PATH/bin/activate"
 
 # 4. Run Python script to generate the commit message and automatically commit
 commit_message=$(python3 - <<END
@@ -54,3 +57,5 @@ fi
 
 # Automatically commit the changes with the generated message
 git commit -m "$commit_message"
+
+deactivate
