@@ -30,14 +30,10 @@ fi
 REQUIRED_PACKAGES=("requests" "langchain" "langchain_ollama")
 
 echo "Checking for required Python packages..."
-for package in "${REQUIRED_PACKAGES[@]}"; do
-    if ! python3 -c "import ${package}" &> /dev/null; then
-        echo "Installing missing package: ${package}"
-        pip3 install "$package" || { echo "Failed to install $package. Exiting."; exit 1; }
-    else
-        echo "Package ${package} is already installed."
-    fi
-done
+pip install requests
+pip install langchain
+pip install langchain_ollama
+
 
 # 4. Copy the commit message generation script to the installation path
 echo "Copying the ollamacommit script to $INSTALL_PATH..."
