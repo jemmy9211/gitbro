@@ -20,16 +20,12 @@ Since `brew` isn’t typically available on Linux, you’ll need to install Olla
 
 ## Usage
 
-1. **Ensure Ollama is Running**: Start your local Ollama server on `localhost:11434`.
-2. **Make the Script Executable**:
-   ```bash
-   chmod +x ollamacommit
-   ```
-3. **Stage Changes**:
+1. **Ensure Ollama is Running**: Start your local Ollama server on `localhost:11434`. 
+2. **Stage Changes**:
    ```bash
    git add .
    ```
-4. **Run the Script**:
+3. **Run the Script**:
    ```bash
    ./ollamacommit
    ```
