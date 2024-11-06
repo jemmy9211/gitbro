@@ -37,7 +37,7 @@ Since `brew` isn’t typically available on Linux, you’ll need to install Olla
 ## Notes
 
 - **Python Requirements**: Ensure `pip` and `python3` are correctly set up on your Linux system. Use `pip3` if necessary.
-- **Dependencies**: The script will install any missing Python packages (`requests`, `langchain_community`, `langchain_core`) automatically.
-- **Model Download**: The script checks for the `phi3.5` model and will download it if not present.
+- **Dependencies**: The script will install any missing Python packages (`requests`, `langchain`) automatically.
+- **Model Download**: The script checks for the `llama3.2` model and will download it if not present.
 
 This setup provides a seamless way to automate commit message generation with minimal setup on Linux.
