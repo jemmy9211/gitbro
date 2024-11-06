@@ -45,7 +45,7 @@ from langchain_community.llms import Ollama
 from langchain_core.prompts import ChatPromptTemplate
 
 # Configure LLM with local Ollama instance
-llm = Ollama(model="phi3.5", base_url="http://localhost:11434")
+llm = Ollama(model="llama3.2", base_url="http://localhost:11434")
 prompt = ChatPromptTemplate.from_messages([
     ("system", "Your task is to write a concise commit message\
         according to a given code diff. Your output should only be\
@@ -59,10 +59,10 @@ def get_git_diff():
     result = subprocess.run(["git", "diff", "--cached"], capture_output=True, text=True)
     return result.stdout
 
-def generate_commit_message(diff):
+def generate_commit_message(qdiff):
     # Get response from LLM
     rsp = chain.invoke({
-        "query_diff": diff
+        "query_diff": qdiff
     })
     return rsp
 
