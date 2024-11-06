@@ -12,8 +12,10 @@ Since `brew` isn’t typically available on Linux, you’ll need to install Olla
 
 2. **Download the `llama3.2` Model**: Once Ollama is installed and running, the script will automatically pull the `llama3.2` model if it’s not already available.
 
-3. **Place the Script in Your `PATH`**: Move `ollamacommit` to a directory in your `PATH`, such as `/usr/local/bin`, to use it as a command.
-
+3. **Simply run install script**.
+   ```bash
+   ./install_ollamacommit.sh
+   ```
 ---
 
 ## Usage
