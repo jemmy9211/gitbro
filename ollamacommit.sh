@@ -41,11 +41,11 @@ commit_message=$(python3 - <<END
 import subprocess
 import requests
 import json
-from langchain_community.llms import Ollama
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_ollama import OllamaLLM
 
 # Configure LLM with local Ollama instance
-llm = Ollama(model="llama3.2", base_url="http://localhost:11434")
+llm = OllamaLLM(model="phi3.5", base_url="http://localhost:11434")
 prompt = ChatPromptTemplate.from_messages([
     ("system", "Your task is to write a concise commit message\
         according to a given code diff. Your output should only be\
