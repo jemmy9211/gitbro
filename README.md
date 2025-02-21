@@ -85,3 +85,5 @@ To remove the tool and its components:
 
 ## License
 
+{{ Add license information here if applicable }}
+
