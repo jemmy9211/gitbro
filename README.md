@@ -33,7 +33,7 @@ A command-line tool that generates commit messages from Git diffs using Ollama's
    ```bash
    ollama serve
    ```
-   Verify it’s running at `http://localhost:11434`.
+   Verify it's running at `http://localhost:11434`.
 
 2. **Stage Changes:**
    ```bash
@@ -54,11 +54,27 @@ A command-line tool that generates commit messages from Git diffs using Ollama's
 ## Notes
 
 - **Python Requirements:** Ensure `python3` and `pip` are installed on your system. Use `pip3` if necessary.
-- **Dependencies:** The installation script handles Python package installation within the project’s virtual environment.
+- **Dependencies:** The installation script handles Python package installation within the project's virtual environment.
 - **Model Download:** The `llama3.2` model is downloaded automatically if not present.
 - **Troubleshooting:** If the tool fails, ensure Ollama is running and accessible at `http://localhost:11434`, and that changes are staged with `git add`.
 
 This setup provides an efficient way to automate commit message generation with minimal setup on Linux.
+
+## Uninstallation
+
+To remove the tool and its components:
+
+1. Run the uninstallation script:
+   ```bash
+   ./uninstall.sh
+   ```
+
+2. The script will:
+   - Remove the virtual environment
+   - Optionally remove the llama3.2 model
+   - Optionally remove Ollama completely
+
+3. If you added the bin directory to PATH, remember to remove it from your `~/.bashrc` or `~/.zshrc`.
 
 ## Project Structure
 
