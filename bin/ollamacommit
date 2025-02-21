@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Function to check if a command exists
+command_exists() {
+    command -v "$1" &> /dev/null
+}
+
+# Determine the project root and virtual environment path relative to this script
+SCRIPT_DIR=$(dirname $0)
+PROJECT_ROOT=$(dirname "$SCRIPT_DIR")
+VENV_PATH="$PROJECT_ROOT/venv"
+
+# Check if the virtual environment exists
+if [ ! -d "$VENV_PATH" ]; then
+    echo "Virtual environment not found at $VENV_PATH. Please run ./install.sh first."
+    exit 1
+fi
+
+# Activate the virtual environment
+source "$VENV_PATH/bin/activate"
+
+# Check if python3 is available in the environment
+if ! command_exists python3; then
+    echo "Python3 not found in the virtual environment. Please ensure the setup is correct."
+    deactivate
+    exit 1
+fi
+
+# Run the Python script to generate the commit message
+commit_message=$(python3 "$PROJECT_ROOT/src/generate_message.py")
+
+# Check if the commit message was successfully generated
+if [ $? -ne 0 ] || [ -z "$commit_message" ]; then
+    echo "Failed to generate a commit message. Please ensure Ollama is running at http://localhost:11434 and changes are staged."
+    deactivate
+    exit 1
+fi
+
+# Automatically commit the changes with the generated message
+git commit -m "$commit_message"
+
+# Check if the commit was successful
+if [ $? -eq 0 ]; then
+    echo "Commit successful with message: \"$commit_message\""
+else
+    echo "Failed to commit changes. Please check your Git setup."
+fi
+
+# Deactivate the virtual environment
+deactivate

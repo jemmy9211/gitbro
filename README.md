@@ -1,41 +1,71 @@
 # Ollama Git Commit Message Generator for Linux
 
-A command-line tool that generates commit messages from Git diffs using Ollama’s `phi3.5` model running locally on `localhost:11434`. The script automatically handles dependency installation, model setup, and commit message generation.
-
----
+A command-line tool that generates commit messages from Git diffs using Ollama's llama3.2 model running locally on `http://localhost:11434`. The script automates dependency installation, model setup, and commit message generation, making it seamless for Linux users.
 
 ## Installation
 
-Since `brew` isn’t typically available on Linux, you’ll need to install Ollama manually. Follow these steps:
-
-1. **Install Ollama**: Visit the [Ollama website](https://ollama.com) and follow the instructions for Linux installation.
-
-2. **Download the `llama3.2` Model**: Once Ollama is installed and running, the script will automatically pull the `llama3.2` model if it’s not already available.
-
-3. **Simply run install script**.
+1. **Clone or Download the Project:**
    ```bash
-   ./install_ollamacommit.sh
+   git clone https://github.com/yourusername/ollamacommit.git
+   cd ollamacommit
    ```
----
+
+2. **Ensure Ollama is Installed:**
+   - Visit [Ollama's website](https://ollama.com) and follow the Linux installation instructions if Ollama is not already installed.
+
+3. **Run the Installation Script:**
+   ```bash
+   ./install.sh
+   ```
+   - This script checks for Ollama, pulls the `llama3.2` model, sets up a virtual environment in `venv/`, and installs required Python packages (`requests`, `langchain`, `langchain_ollama`).
+
+4. **(Optional) Add to PATH:**
+   - To run `ollamacommit` globally without specifying the path, add the `bin/` directory to your PATH:
+     ```bash
+     export PATH=$PATH:/path/to/ollamacommit/bin
+     ```
+   - Add this line to your `~/.bashrc` or `~/.zshrc` for persistence.
 
 ## Usage
 
-1. **Ensure Ollama is Running**: Start your local Ollama server on `localhost:11434`. 
-2. **Stage Changes**:
+1. **Ensure Ollama is Running:**
+   Start your local Ollama server:
+   ```bash
+   ollama serve
+   ```
+   Verify it’s running at `http://localhost:11434`.
+
+2. **Stage Changes:**
    ```bash
    git add .
    ```
-3. **Run the Script**:
-   ```bash
-   ./ollamacommit
-   ```
 
----
+3. **Generate and Commit:**
+   Run the tool:
+   ```bash
+   ./bin/ollamacommit
+   ```
+   - Or, if added to PATH:
+     ```bash
+     ollamacommit
+     ```
+   - The script generates a commit message based on staged changes and commits them automatically.
 
 ## Notes
 
-- **Python Requirements**: Ensure `pip` and `python3` are correctly set up on your Linux system. Use `pip3` if necessary.
-- **Dependencies**: The script will install any missing Python packages (`requests`, `langchain`) automatically.
-- **Model Download**: The script checks for the `llama3.2` model and will download it if not present.
+- **Python Requirements:** Ensure `python3` and `pip` are installed on your system. Use `pip3` if necessary.
+- **Dependencies:** The installation script handles Python package installation within the project’s virtual environment.
+- **Model Download:** The `llama3.2` model is downloaded automatically if not present.
+- **Troubleshooting:** If the tool fails, ensure Ollama is running and accessible at `http://localhost:11434`, and that changes are staged with `git add`.
 
-This setup provides a seamless way to automate commit message generation with minimal setup on Linux.
+This setup provides an efficient way to automate commit message generation with minimal setup on Linux.
+
+## Project Structure
+
+- `install.sh`: Installation script.
+- `bin/ollamacommit`: Main executable script.
+- `src/generate_message.py`: Python script for generating commit messages.
+- `venv/`: Virtual environment directory.
+
+## License
+

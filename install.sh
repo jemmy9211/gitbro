@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# Define the installation path and virtual environment path
-INSTALL_PATH="/usr/local/bin/ollamacommit"
-VENV_PATH="$HOME/ollama_venv"
+# Define the virtual environment path within the project
+VENV_PATH="venv"
 
 # Function to check if a command exists
 command_exists() {
@@ -11,8 +10,8 @@ command_exists() {
 
 # 1. Check if Ollama is installed
 if ! command_exists ollama; then
-    echo "Ollama is not installed. Installing Ollama..."
-    echo "Please install Ollama manually by visiting https://ollama.com and follow the Linux installation instructions."
+    echo "Ollama is not installed. Installing Ollama requires manual setup."
+    echo "Please visit https://ollama.com and follow the Linux installation instructions."
     exit 1
 else
     echo "Ollama is already installed."
@@ -59,17 +58,15 @@ for PACKAGE in "${REQUIRED_PACKAGES[@]}"; do
     fi
 done
 
-# 5. Copy the commit message generation script to the installation path
-echo "Copying the ollamacommit script to $INSTALL_PATH..."
-if ! sudo cp ollamacommit.sh "$INSTALL_PATH"; then
-    echo "Failed to copy the script to $INSTALL_PATH. Please check your permissions."
+# 5. Ensure the ollamacommit script is in bin/ and executable
+if [ ! -f "bin/ollamacommit" ]; then
+    echo "Error: bin/ollamacommit not found. Please ensure the project structure is intact."
     deactivate
     exit 1
 fi
 
-# 6. Make the script executable
-if ! sudo chmod +x "$INSTALL_PATH"; then
-    echo "Failed to make the script executable. Please check your permissions."
+if ! chmod +x "bin/ollamacommit"; then
+    echo "Failed to make bin/ollamacommit executable. Please check your permissions."
     deactivate
     exit 1
 fi
@@ -78,6 +75,7 @@ fi
 deactivate
 
 # Print success message
-echo "Installation complete! You can now use 'ollamacommit' as a command."
+echo "Installation complete! You can now use './bin/ollamacommit' to generate commit messages."
+echo "To run it globally, add the bin directory to your PATH:"
+echo "  export PATH=\$PATH:$(pwd)/bin"
 echo "Ensure that your local Ollama API server is running at http://localhost:11434."
-
