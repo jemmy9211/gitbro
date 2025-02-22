@@ -13,6 +13,9 @@ chain = prompt | llm
 def get_diff():
     """Get the Git diff of staged changes."""
     result = subprocess.run(["git", "diff", "--cached"], capture_output=True, text=True)
+    if result.stdout.strip() == "":
+        print("No staged changes found. Please use 'git add' to stage your changes first.")
+        return None
     return result.stdout
 
 def generate_message(qdiff):
@@ -20,11 +23,19 @@ def generate_message(qdiff):
     rsp = chain.invoke({"query_diff": qdiff})
     return rsp
 
+def main():
+    """Main function to generate commit message."""
+    diff = get_diff()
+    if diff is None:
+        return 1
+    
+    try:
+        message = generate_message(diff)
+        print(message.strip())
+        return 0
+    except Exception as e:
+        print(f"Error generating commit message: {str(e)}")
+        return 1
+
 if __name__ == "__main__":
-    git_diff = get_diff()
-    if not git_diff:
-        print("No changes staged for commit.")
-        exit(1)
-    else:
-        commit_message = generate_message(git_diff)
-        print(commit_message)
+    exit(main())
