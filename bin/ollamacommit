@@ -27,25 +27,49 @@ if ! command_exists python3; then
     exit 1
 fi
 
-# Run the Python script to generate the commit message
-commit_message=$(python3 "$PROJECT_ROOT/src/generate_message.py")
+while true; do
+    # Run the Python script to generate the commit message
+    commit_message=$(python3 "$PROJECT_ROOT/src/generate_message.py")
 
-# Check if the commit message was successfully generated
-if [ $? -ne 0 ] || [ -z "$commit_message" ]; then
-    echo "Failed to generate a commit message. Please ensure Ollama is running at http://localhost:11434 and changes are staged."
-    deactivate
-    exit 1
-fi
+    # Check if the commit message was successfully generated
+    if [ $? -ne 0 ] || [ -z "$commit_message" ]; then
+        echo "Failed to generate a commit message. Please ensure Ollama is running at http://localhost:11434 and changes are staged."
+        deactivate
+        exit 1
+    fi
 
-# Automatically commit the changes with the generated message
-git commit -m "$commit_message"
+    echo -e "\nGenerated commit message:\n\"$commit_message\""
+    echo -e "\nPlease choose an action:"
+    echo "1) Accept and commit"
+    echo "2) Regenerate"
+    echo "3) Cancel and exit"
+    read -p "Enter your choice (1-3): " choice
 
-# Check if the commit was successful
-if [ $? -eq 0 ]; then
-    echo "Commit successful with message: \"$commit_message\""
-else
-    echo "Failed to commit changes. Please check your Git setup."
-fi
+    case $choice in
+        1)
+            # Commit with the accepted message
+            git commit -m "$commit_message"
+            if [ $? -eq 0 ]; then
+                echo "Commit successful! Commit message: \"$commit_message\""
+            else
+                echo "Failed to commit. Please check your Git setup."
+            fi
+            break
+            ;;
+        2)
+            echo "Regenerating commit message..."
+            continue
+            ;;
+        3)
+            echo "Operation canceled."
+            break
+            ;;
+        *)
+            echo "Invalid option, please try again."
+            continue
+            ;;
+    esac
+done
 
 # Deactivate the virtual environment
 deactivate
