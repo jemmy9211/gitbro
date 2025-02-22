@@ -37,12 +37,21 @@ if [ $exit_code -ne 0 ] || [ -z "$commit_message" ]; then
     exit 1
 fi
 
-# 以下是選擇循環，保持不變
+# Modify the choice loop
 while true; do
+    commit_message=$(python3 "$PROJECT_ROOT/src/generate_message.py")
+    exit_code=$?
+
+    if [ $exit_code -ne 0 ] || [ -z "$commit_message" ]; then
+        echo "Failed to generate a commit message. Please ensure Ollama is running at http://localhost:11434 and changes are staged."
+        deactivate
+        exit 1
+    fi
+
     echo -e "\nGenerated commit message:\n$commit_message"
     echo -e "\nPlease choose an action:"
     echo "1) Accept and commit"
-    echo "2) Regenerate"
+    echo "2) Regenerate with more creativity"
     echo "3) Cancel and exit"
     read -p "Enter your choice (1-3): " choice
 
@@ -54,14 +63,19 @@ while true; do
             else
                 echo "Failed to commit. Please check your Git setup."
             fi
+            # Reset creativity level for next time
+            PYTHONPATH="$PROJECT_ROOT/src" python3 -c "from generate_message import reset_creativity; reset_creativity()"
             break
             ;;
         2)
-            echo "Regenerating commit message..."
+            echo "Regenerating commit message with increased creativity..."
+            PYTHONPATH="$PROJECT_ROOT/src" python3 -c "from generate_message import increase_creativity; increase_creativity()"
             continue
             ;;
         3)
             echo "Operation canceled."
+            # Reset creativity level for next time
+            python3 -c "from generate_message import reset_creativity; reset_creativity()"
             break
             ;;
         *)
