@@ -1,43 +1,44 @@
 #!/bin/bash
 
-# Function to check if a command exists
 command_exists() {
     command -v "$1" &> /dev/null
 }
 
-# Get the absolute path of the script, resolving any symlinks
 SCRIPT_PATH=$(realpath "$0")
-# Get the project root (parent of bin/)
 PROJECT_ROOT=$(dirname $(dirname "$SCRIPT_PATH"))
 VENV_PATH="$PROJECT_ROOT/venv"
 
-# Check if the virtual environment exists
+echo "DEBUG: PROJECT_ROOT=$PROJECT_ROOT"
+echo "DEBUG: VENV_PATH=$VENV_PATH"
+
 if [ ! -d "$VENV_PATH" ]; then
     echo "Virtual environment not found at $VENV_PATH. Please run ./install.sh from the project root."
     exit 1
 fi
 
-# Activate the virtual environment
 source "$VENV_PATH/bin/activate"
 
-# Check if python3 is available in the environment
 if ! command_exists python3; then
     echo "Python3 not found in the virtual environment. Please ensure the setup is correct."
     deactivate
     exit 1
 fi
 
+echo "DEBUG: Virtual environment activated, running generate_message.py..."
+commit_message=$(python3 "$PROJECT_ROOT/src/generate_message.py")
+exit_code=$?
+
+echo "DEBUG: Exit code from generate_message.py=$exit_code"
+echo "DEBUG: Generated commit_message='$commit_message'"
+
+if [ $exit_code -ne 0 ] || [ -z "$commit_message" ]; then
+    echo "Failed to generate a commit message. Please ensure Ollama is running at http://localhost:11434 and changes are staged."
+    deactivate
+    exit 1
+fi
+
+# 以下是選擇循環，保持不變
 while true; do
-    # Run the Python script to generate the commit message
-    commit_message=$(python3 "$PROJECT_ROOT/src/generate_message.py")
-
-    # Check if the commit message was successfully generated
-    if [ $? -ne 0 ] || [ -z "$commit_message" ]; then
-        echo "Failed to generate a commit message. Please ensure Ollama is running at http://localhost:11434 and changes are staged."
-        deactivate
-        exit 1
-    fi
-
     echo -e "\nGenerated commit message:\n\"$commit_message\""
     echo -e "\nPlease choose an action:"
     echo "1) Accept and commit"
@@ -47,7 +48,6 @@ while true; do
 
     case $choice in
         1)
-            # Commit with the accepted message
             git commit -m "$commit_message"
             if [ $? -eq 0 ]; then
                 echo "Commit successful! Commit message: \"$commit_message\""
@@ -71,5 +71,4 @@ while true; do
     esac
 done
 
-# Deactivate the virtual environment
 deactivate
