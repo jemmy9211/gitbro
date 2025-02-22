@@ -39,7 +39,7 @@ fi
 
 # 以下是選擇循環，保持不變
 while true; do
-    echo -e "\nGenerated commit message:\n\"$commit_message\""
+    echo -e "\nGenerated commit message:\n$commit_message"
     echo -e "\nPlease choose an action:"
     echo "1) Accept and commit"
     echo "2) Regenerate"
