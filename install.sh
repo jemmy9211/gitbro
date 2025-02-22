@@ -28,6 +28,30 @@ else
     echo "llama3.2 model is already installed in Ollama."
 fi
 
+# Check and install python3-venv if not present
+if ! dpkg -l | grep -q python3-venv; then
+    echo "Python3 venv package is not installed. Attempting to install..."
+    if command_exists apt; then
+        echo "Installing python3-venv using apt..."
+        # Try installation without updating first
+        if ! sudo apt install -y python3-venv; then
+            echo "Initial installation attempt failed. Trying with update..."
+            # If that fails, try updating and installing
+            if ! sudo apt update && sudo apt install -y python3-venv; then
+                echo "Failed to install python3-venv. Please fix your apt sources and try again with:"
+                echo "sudo rm /etc/apt/sources.list.d/*impish*"
+                echo "sudo apt update"
+                echo "sudo apt install python3-venv"
+                exit 1
+            fi
+        fi
+    else
+        echo "This system doesn't use apt package manager."
+        echo "Please install python3-venv manually using your system's package manager."
+        exit 1
+    fi
+fi
+
 # 3. Create a virtual environment if it doesn't exist
 if [ ! -d "$VENV_PATH" ]; then
     echo "Creating a virtual environment at $VENV_PATH..."
