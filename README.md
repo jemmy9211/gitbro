@@ -51,12 +51,21 @@ A command-line tool that generates commit messages from Git diffs using Ollama's
      ```
    - The script generates a commit message based on staged changes and commits them automatically.
 
+## How It Works
+
+1. The tool extracts the Git diff of staged changes using `git diff --cached`.
+2. It sends this diff to a locally running llama3.2 model via Ollama's API.
+3. The model is prompted to generate a concise, relevant commit message based on the code changes.
+4. Users can adjust the "creativity" level by increasing the temperature parameter if they want more varied suggestions.
+5. Once satisfied, the generated message is used to create a Git commit automatically.
+
 ## Notes
 
 - **Python Requirements:** Ensure `python3` and `pip` are installed on your system. Use `pip3` if necessary.
 - **Dependencies:** The installation script handles Python package installation within the project's virtual environment.
 - **Model Download:** The `llama3.2` model is downloaded automatically if not present.
-- **Troubleshooting:** If the tool fails, ensure Ollama is running and accessible at `http://localhost:11434`, and that changes are staged with `git add`.
+- **Troubleshooting:** If the tool fails, ensure Ollama is running and accessible at `http://localhost:11434`, and that changes are staged with `git add`.  
+- **Creativity Control:** The tool allows incrementally increasing the "temperature" parameter (from 0.7 up to 1.0) to generate more creative commit messages when regenerating.
 
 This setup provides an efficient way to automate commit message generation with minimal setup on Linux.
 
@@ -78,10 +87,11 @@ To remove the tool and its components:
 
 ## Project Structure
 
-- `install.sh`: Installation script.
-- `bin/ollamacommit`: Main executable script.
-- `src/generate_message.py`: Python script for generating commit messages.
-- `venv/`: Virtual environment directory.
+- `install.sh`: Installation script that sets up dependencies and environment.
+- `uninstall.sh`: Script to clean up installed components.
+- `bin/ollamacommit`: Main executable script for generating and managing commit messages.
+- `src/generate_message.py`: Python module that handles LLM integration and message generation.
+- `venv/`: Virtual environment directory (created during installation).
 
 ## License
 
