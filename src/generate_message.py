@@ -1,4 +1,5 @@
 import subprocess
+import sys # Import sys for stderr
 from langchain.prompts import ChatPromptTemplate
 from langchain_ollama import OllamaLLM
 
@@ -28,17 +29,23 @@ class MessageGenerator:
     def generate_message(self, diff):
         llm = self.create_llm()
         prompt = ChatPromptTemplate.from_messages([
-            ("system", "Your task is to write a concise commit message according to a given code diff. Your output should only be the commit message with no other information."),
+            ("system", "Your task is to write a Git commit message based on the provided code diff. The message should follow standard conventions:\n- Start with a short imperative subject line (e.g., 'Fix bug', 'Add feature').\n- The subject line should be 50 characters or less if possible.\n- Optionally, provide a more detailed explanatory text after the subject line, separated by a blank line.\n- Your output should *only* be the commit message content, with no other surrounding text, titles, or explanations."),
             ("user", "Code Diff: {query_diff} Commit Message:")
         ])
         chain = prompt | llm
-        return chain.invoke({"query_diff": diff})
+        raw_message = chain.invoke({"query_diff": diff})
+        if hasattr(raw_message, 'content'): # Handling for AIMessage like objects
+            return str(raw_message.content)
+        return str(raw_message) # Fallback for direct string output
 
 generator = MessageGenerator()
 
 def get_diff():
     """Get the Git diff of staged changes."""
     result = subprocess.run(["git", "diff", "--cached"], capture_output=True, text=True)
+    if result.returncode != 0:
+        print(f"Error executing 'git diff --cached': {result.stderr.strip()}", file=sys.stderr)
+        return None
     if result.stdout.strip() == "":
         print("No staged changes found. Please use 'git add' to stage your changes first.")
         return None
@@ -63,8 +70,8 @@ def main():
         return 1
     
     try:
-        message = generate_message(diff)
-        print(message.strip())
+        message = generate_message(diff) # generate_message now returns a string
+        print(message) # Print the raw string
         return 0
     except Exception as e:
         print(f"Error generating commit message: {str(e)}")

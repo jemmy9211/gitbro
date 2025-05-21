@@ -8,6 +8,12 @@ command_exists() {
     command -v "$1" &> /dev/null
 }
 
+# 0. Check if Git is installed
+if ! command_exists git; then
+    echo "Error: git command not found. Git is required to use this tool."
+    exit 1
+fi
+
 # 1. Check if Ollama is installed
 if ! command_exists ollama; then
     echo "Ollama is not installed. Installing Ollama requires manual setup."
@@ -38,16 +44,19 @@ if ! dpkg -l | grep -q python3-venv; then
             echo "Initial installation attempt failed. Trying with update..."
             # If that fails, try updating and installing
             if ! sudo apt update && sudo apt install -y python3-venv; then
-                echo "Failed to install python3-venv. Please fix your apt sources and try again with:"
-                echo "sudo rm /etc/apt/sources.list.d/*impish*"
-                echo "sudo apt update"
-                echo "sudo apt install python3-venv"
+                echo "Error: Failed to install python3-venv even after 'apt update'."
+                echo "This might be due to issues with your package manager configuration (e.g., broken or outdated sources)."
+                echo "Please try to resolve these issues manually. For example, you might need to:"
+                echo "  1. Check for and remove problematic source files (e.g., in /etc/apt/sources.list.d/)."
+                echo "  2. Run 'sudo apt update' to refresh your package lists."
+                echo "  3. Then try 'sudo apt install python3-venv' again."
                 exit 1
             fi
         fi
+        echo "python3-venv installed successfully."
     else
-        echo "This system doesn't use apt package manager."
-        echo "Please install python3-venv manually using your system's package manager."
+        echo "Warning: This system doesn't seem to use 'apt' package manager."
+        echo "Please ensure python3-venv (or equivalent) is installed manually for your system to proceed."
         exit 1
     fi
 fi
@@ -65,22 +74,14 @@ fi
 # Activate the virtual environment
 source "$VENV_PATH/bin/activate"
 
-# 4. Check and install required Python packages in the virtual environment
-REQUIRED_PACKAGES=("requests" "langchain" "langchain_ollama")
-echo "Checking for required Python packages in the virtual environment..."
-
-for PACKAGE in "${REQUIRED_PACKAGES[@]}"; do
-    if ! pip show "$PACKAGE" &> /dev/null; then
-        echo "Installing $PACKAGE in the virtual environment..."
-        if ! pip install "$PACKAGE"; then
-            echo "Failed to install $PACKAGE. Please check your virtual environment setup."
-            deactivate
-            exit 1
-        fi
-    else
-        echo "$PACKAGE is already installed in the virtual environment."
-    fi
-done
+# 4. Install required Python packages from requirements.txt
+echo "Installing Python packages from requirements.txt in the virtual environment..."
+if ! pip install -r requirements.txt; then
+    echo "Failed to install packages from requirements.txt. Please check your virtual environment setup and requirements.txt."
+    deactivate
+    exit 1
+fi
+echo "Python packages installed successfully from requirements.txt."
 
 # 5. Ensure the ollamacommit script is in bin/ and executable
 if [ ! -f "bin/ollamacommit" ]; then

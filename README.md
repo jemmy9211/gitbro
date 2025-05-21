@@ -49,15 +49,19 @@ A command-line tool that generates commit messages from Git diffs using Ollama's
      ```bash
      ollamacommit
      ```
-   - The script generates a commit message based on staged changes and commits them automatically.
+   - The script generates a commit message based on staged changes.
+   - You will then be presented with the generated message and options:
+     1. Accept and commit: Uses the generated message to make the commit.
+     2. Regenerate with more creativity: Increases the 'temperature' setting for the language model and generates a new message. This can result in more diverse and imaginative suggestions. The temperature resets after each commit or cancellation.
+     3. Cancel and exit: Aborts the commit process.
 
 ## How It Works
 
 1. The tool extracts the Git diff of staged changes using `git diff --cached`.
 2. It sends this diff to a locally running llama3.2 model via Ollama's API.
 3. The model is prompted to generate a concise, relevant commit message based on the code changes.
-4. Users can adjust the "creativity" level by increasing the temperature parameter if they want more varied suggestions.
-5. Once satisfied, the generated message is used to create a Git commit automatically.
+4. The user is then prompted to accept the message, regenerate it with increased creativity (temperature), or cancel.
+5. If accepted, the generated message is used to create a Git commit.
 
 ## Notes
 
@@ -65,9 +69,8 @@ A command-line tool that generates commit messages from Git diffs using Ollama's
 - **Dependencies:** The installation script handles Python package installation within the project's virtual environment.
 - **Model Download:** The `llama3.2` model is downloaded automatically if not present.
 - **Troubleshooting:** If the tool fails, ensure Ollama is running and accessible at `http://localhost:11434`, and that changes are staged with `git add`.  
-- **Creativity Control:** The tool allows incrementally increasing the "temperature" parameter (from 0.7 up to 1.0) to generate more creative commit messages when regenerating.
 
-This setup provides an efficient way to automate commit message generation with minimal setup on Linux.
+This setup provides an efficient way to generate commit messages with minimal setup on Linux, offering user control over the final message.
 
 ## Uninstallation
 
@@ -95,5 +98,36 @@ To remove the tool and its components:
 
 ## License
 
-{{ Add license information here if applicable }}
+This project is licensed under the MIT License.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+## Contributing
+
+Contributions are welcome! If you have suggestions for improvements or want to report a bug, please feel free to open an issue or submit a pull request.
+
+### Development
+1. Fork the repository.
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
+4. Push to the branch (`git push origin feature/AmazingFeature`).
+5. Open a pull request.
+
+Please ensure your code adheres to good coding practices and include tests if applicable.
 

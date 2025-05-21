@@ -25,25 +25,27 @@ if ! command_exists python3; then
 fi
 
 # echo "DEBUG: Virtual environment activated, running generate_message.py..."
-commit_message=$(python3 "$PROJECT_ROOT/src/generate_message.py")
-exit_code=$?
-
-# echo "DEBUG: Exit code from generate_message.py=$exit_code"
-# echo "DEBUG: Generated commit_message='$commit_message'"
-
-if [ $exit_code -ne 0 ] || [ -z "$commit_message" ]; then
-    echo "Failed to generate a commit message. Please ensure Ollama is running at http://localhost:11434 and changes are staged."
-    deactivate
-    exit 1
-fi
+# Initial message generation removed as per request
 
 # Modify the choice loop
 while true; do
-    commit_message=$(python3 "$PROJECT_ROOT/src/generate_message.py")
+    temp_stderr_file=$(mktemp)
+    # Capture stdout in commit_message, and stderr in temp_stderr_file
+    commit_message=$(python3 "$PROJECT_ROOT/src/generate_message.py" 2> "$temp_stderr_file")
     exit_code=$?
 
+    if [ $exit_code -ne 0 ]; then
+        echo -e "\nError details from message generation script (stderr):"
+        cat "$temp_stderr_file"
+        # The existing combined check will handle the generic message and exit
+    fi
+    rm -f "$temp_stderr_file" # Clean up the temp file
+
     if [ $exit_code -ne 0 ] || [ -z "$commit_message" ]; then
-        echo "Failed to generate a commit message. Please ensure Ollama is running at http://localhost:11434 and changes are staged."
+        echo "Failed to generate a commit message. Common issues:"
+        echo "- Ensure Ollama is running and accessible at http://localhost:11434."
+        echo "- Check that changes are staged using 'git add'."
+        echo "- Review any specific error messages printed above from the generation script."
         deactivate
         exit 1
     fi
@@ -58,14 +60,19 @@ while true; do
     case $choice in
         1)
             git commit -m "$commit_message"
-            if [ $? -eq 0 ]; then
+            commit_exit_code=$?
+            if [ $commit_exit_code -eq 0 ]; then
                 echo "Commit successful! Commit message: \"$commit_message\""
+                # Reset creativity level for next time
+                PYTHONPATH="$PROJECT_ROOT/src" python3 -c "from generate_message import reset_creativity; reset_creativity()"
+                break
             else
-                echo "Failed to commit. Please check your Git setup."
+                echo "Error: Git commit command failed. Please check for issues like an empty commit message (if the generation failed silently), Git hooks preventing the commit, or other Git-related problems."
+                # Reset creativity level for next time, even on failure, to ensure clean state for next attempt
+                PYTHONPATH="$PROJECT_ROOT/src" python3 -c "from generate_message import reset_creativity; reset_creativity()"
+                deactivate
+                exit 1 # Exit with an error code
             fi
-            # Reset creativity level for next time
-            PYTHONPATH="$PROJECT_ROOT/src" python3 -c "from generate_message import reset_creativity; reset_creativity()"
-            break
             ;;
         2)
             echo "Regenerating commit message with increased creativity..."
@@ -75,7 +82,7 @@ while true; do
         3)
             echo "Operation canceled."
             # Reset creativity level for next time
-            python3 -c "from generate_message import reset_creativity; reset_creativity()"
+            PYTHONPATH="$PROJECT_ROOT/src" python3 -c "from generate_message import reset_creativity; reset_creativity()"
             break
             ;;
         *)
