@@ -1,4 +1,4 @@
-# 🧠 AI-Powered Git CLI Tool (gitbrain v2.0)
+# 🧠 AI-Powered Git CLI Tool (gitbro v2.0)
 
 A comprehensive AI-assisted Git CLI tool that enhances developer workflow through smart commit handling, diff summarization, branch naming, validation, and more. Choose from OpenAI GPT models, Google Gemini, Anthropic Claude, or local Ollama models.
 
@@ -28,23 +28,23 @@ A comprehensive AI-assisted Git CLI tool that enhances developer workflow throug
 
 | Command | Description | Example |
 |---------|-------------|---------|
-| `commit` | Generate AI-powered commit messages | `gitbrain commit --conventional` |
-| `branch-suggest` | Suggest semantic branch names | `gitbrain branch-suggest --create` |
-| `explain` | Human-friendly diff explanations | `gitbrain explain --staged` |
-| `summarize` | Commit history summarization | `gitbrain summarize --format changelog` |
-| `validate` | Commit message format checking | `gitbrain validate --conventional --fix` |
-| `interactive-add` | AI-assisted staging | `gitbrain interactive-add` |
-| `clean-branches` | Clean merged local/remote branches | `gitbrain clean-branches --remote` |
-| `install-hook` | Pre-commit hook integration | `gitbrain install-hook` |
-| `setup` | Configure AI providers | `gitbrain setup ollama` |
-| `status` | Show configuration status | `gitbrain status` |
+| `commit` | Generate AI-powered commit messages | `gitbro commit --conventional` |
+| `branch-suggest` | Suggest semantic branch names | `gitbro branch-suggest --create` |
+| `explain` | Human-friendly diff explanations | `gitbro explain --staged` |
+| `summarize` | Commit history summarization | `gitbro summarize --format changelog` |
+| `validate` | Commit message format checking | `gitbro validate --conventional --fix` |
+| `interactive-add` | AI-assisted staging | `gitbro interactive-add` |
+| `clean-branches` | Clean merged local/remote branches | `gitbro clean-branches --remote` |
+| `install-hook` | Pre-commit hook integration | `gitbro install-hook` |
+| `setup` | Configure AI providers | `gitbro setup ollama` |
+| `status` | Show configuration status | `gitbro status` |
 
 ## 📦 Installation
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/yourusername/gitbrain.git
-   cd gitbrain
+   git clone https://github.com/yourusername/gitbro.git
+   cd gitbro
    ```
 
 2. **Run the Installation Script:**
@@ -58,14 +58,14 @@ A comprehensive AI-assisted Git CLI tool that enhances developer workflow throug
 
 3. **Set Up an AI Provider:**
    ```bash
-   gitbrain setup
+   gitbro setup
    ```
    Choose from the interactive menu or specify directly:
    ```bash
-   gitbrain setup openai    # For OpenAI
-   gitbrain setup gemini    # For Google Gemini
-   gitbrain setup claude    # For Anthropic Claude
-   gitbrain setup ollama    # For Ollama (local)
+   gitbro setup openai    # For OpenAI
+   gitbro setup gemini    # For Google Gemini
+   gitbro setup claude    # For Anthropic Claude
+   gitbro setup ollama    # For Ollama (local)
    ```
 
 ## 🎯 Quick Start Guide
@@ -74,7 +74,7 @@ A comprehensive AI-assisted Git CLI tool that enhances developer workflow throug
 
 1. **Check your setup:**
    ```bash
-   gitbrain status
+   gitbro status
    ```
 
 2. **Make some changes and stage them:**
@@ -85,20 +85,20 @@ A comprehensive AI-assisted Git CLI tool that enhances developer workflow throug
 
 3. **Generate an AI commit message:**
    ```bash
-   gitbrain commit
+   gitbro commit
    # Output: Add hello.js with greeting message
    ```
 
 4. **Get AI explanation of your changes:**
    ```bash
-   gitbrain explain --staged
+   gitbro explain --staged
    # Output: 📝 Change Explanation:
    # This change adds a new JavaScript file that prints a greeting message to the console...
    ```
 
 5. **Get a semantic branch name suggestion:**
    ```bash
-   gitbrain branch-suggest
+   gitbro branch-suggest
    # Output: Suggested branch name: feat/add-hello-script
    ```
 
@@ -110,16 +110,16 @@ Generate meaningful commit messages from staged changes.
 
 ```bash
 # Basic usage
-gitbrain commit
+gitbro commit
 
 # Use Conventional Commits format
-gitbrain commit --conventional
+gitbro commit --conventional
 
 # Auto-commit without confirmation
-gitbrain commit --auto
+gitbro commit --auto
 
 # Adjust creativity level
-gitbrain commit --temperature 1.2
+gitbro commit --temperature 1.2
 ```
 
 **Options:**
@@ -133,13 +133,13 @@ Generate branch names based on code changes.
 
 ```bash
 # Suggest branch name from staged changes
-gitbrain branch-suggest
+gitbro branch-suggest
 
 # Auto-create the suggested branch
-gitbrain branch-suggest --create
+gitbro branch-suggest --create
 
 # Generate name from specific commit
-gitbrain branch-suggest --from-commit abc123
+gitbro branch-suggest --from-commit abc123
 ```
 
 **Options:**
@@ -152,13 +152,13 @@ Get plain English explanations of your code changes.
 
 ```bash
 # Explain working directory changes
-gitbrain explain
+gitbro explain
 
 # Explain only staged changes
-gitbrain explain --staged
+gitbro explain --staged
 
 # Explain changes in specific file
-gitbrain explain --file src/main.py
+gitbro explain --file src/main.py
 ```
 
 **Options:**
@@ -171,22 +171,22 @@ Generate summaries, changelogs, and release notes from commit history.
 
 ```bash
 # Basic summary of recent commits
-gitbrain summarize
+gitbro summarize
 
 # Generate a changelog
-gitbrain summarize --format changelog
+gitbro summarize --format changelog
 
 # Create release notes
-gitbrain summarize --format release-notes
+gitbro summarize --format release-notes
 
 # Filter by time period
-gitbrain summarize --since "1 week ago"
+gitbro summarize --since "1 week ago"
 
 # Filter by author
-gitbrain summarize --author "john@example.com"
+gitbro summarize --author "john@example.com"
 
 # Summarize specific branch
-gitbrain summarize --branch feature/new-auth
+gitbro summarize --branch feature/new-auth
 ```
 
 **Options:**
@@ -201,16 +201,16 @@ Check commit messages against formatting conventions.
 
 ```bash
 # Validate last 10 commits
-gitbrain validate
+gitbro validate
 
 # Validate against Conventional Commits
-gitbrain validate --conventional
+gitbro validate --conventional
 
 # Suggest fixes for invalid messages
-gitbrain validate --conventional --fix
+gitbro validate --conventional --fix
 
 # Validate specific commit range
-gitbrain validate --range HEAD~5..HEAD
+gitbro validate --range HEAD~5..HEAD
 ```
 
 **Options:**
@@ -224,7 +224,7 @@ Get AI recommendations for staging changes.
 
 ```bash
 # Launch interactive staging with AI analysis
-gitbrain interactive-add
+gitbro interactive-add
 ```
 
 The tool will:
@@ -239,19 +239,19 @@ Clean up local and remote branches that have been merged into main/master.
 
 ```bash
 # Clean only local merged branches
-gitbrain clean-branches
+gitbro clean-branches
 
 # Clean both local and remote branches (with confirmation)
-gitbrain clean-branches --remote
+gitbro clean-branches --remote
 
 # Preview what would be deleted without actually deleting
-gitbrain clean-branches --dry-run --remote
+gitbro clean-branches --dry-run --remote
 
 # Force deletion without confirmation prompts
-gitbrain clean-branches --force --remote
+gitbro clean-branches --force --remote
 
 # Generate shell aliases for easy reuse
-gitbrain clean-branches --generate-alias
+gitbro clean-branches --generate-alias
 ```
 
 **Options:**
@@ -273,10 +273,10 @@ Install Git hooks for automatic validation and message generation.
 
 ```bash
 # Install pre-commit hook
-gitbrain install-hook
+gitbro install-hook
 
 # Remove pre-commit hook
-gitbrain install-hook --uninstall
+gitbro install-hook --uninstall
 ```
 
 The hook will:
@@ -290,13 +290,13 @@ Manage AI provider configuration.
 
 ```bash
 # Interactive provider setup
-gitbrain setup
+gitbro setup
 
 # Setup specific provider
-gitbrain setup ollama
+gitbro setup ollama
 
 # Check configuration status
-gitbrain status
+gitbro status
 ```
 
 ## 💡 Usage Examples
@@ -312,19 +312,19 @@ vim src/login.html
 vim tests/test_auth.py
 
 # 2. Check what you've changed
-gitbrain explain
+gitbro explain
 # Output: This adds user authentication functionality with login form and tests
 
 # 3. Interactively stage changes with AI recommendations
-gitbrain interactive-add
+gitbro interactive-add
 # AI will analyze each file and recommend whether to stage it
 
 # 4. Generate a conventional commit
-gitbrain commit --conventional
+gitbro commit --conventional
 # Output: feat(auth): add user login functionality with form validation
 
 # 5. Get branch name for next feature
-gitbrain branch-suggest --create
+gitbro branch-suggest --create
 # Creates and switches to: feat/password-reset
 ```
 
@@ -338,11 +338,11 @@ vim src/api.py  # Fix timeout issue
 git add src/api.py
 
 # 3. Generate commit with higher creativity for better description
-gitbrain commit --temperature 1.2
+gitbro commit --temperature 1.2
 # Output: Fix API timeout issue by increasing request timeout from 5s to 30s
 
 # 4. Validate the commit message format
-gitbrain validate --conventional --range HEAD~1..HEAD
+gitbro validate --conventional --range HEAD~1..HEAD
 # Ensures your commit follows standards
 ```
 
@@ -350,15 +350,15 @@ gitbrain validate --conventional --range HEAD~1..HEAD
 
 ```bash
 # 1. Explain all changes for reviewers
-gitbrain explain
+gitbro explain
 # Get plain English explanation of your work
 
 # 2. Summarize your feature branch
-gitbrain summarize --branch feature/user-profiles
+gitbro summarize --branch feature/user-profiles
 # Generate overview of all commits in the branch
 
 # 3. Validate all commit messages in the branch
-gitbrain validate --conventional --fix --range main..HEAD
+gitbro validate --conventional --fix --range main..HEAD
 # Check and get suggestions for improving commit messages
 ```
 
@@ -366,29 +366,29 @@ gitbrain validate --conventional --fix --range main..HEAD
 
 ```bash
 # 1. Generate changelog since last release
-gitbrain summarize --format changelog --since "v1.2.0"
+gitbro summarize --format changelog --since "v1.2.0"
 
 # 2. Create release notes
-gitbrain summarize --format release-notes --since "v1.2.0"
+gitbro summarize --format release-notes --since "v1.2.0"
 
 # 3. Validate all commits since last release
-gitbrain validate --conventional --range v1.2.0..HEAD
+gitbro validate --conventional --range v1.2.0..HEAD
 
 # 4. Install pre-commit hook for future quality
-gitbrain install-hook
+gitbro install-hook
 ```
 
 #### 🔍 **Understanding Legacy Code**
 
 ```bash
 # 1. Understand changes in specific files
-gitbrain explain --file src/legacy_module.py
+gitbro explain --file src/legacy_module.py
 
 # 2. Get summary of recent activity by specific author
-gitbrain summarize --author "senior.dev@company.com" --since "1 month ago"
+gitbro summarize --author "senior.dev@company.com" --since "1 month ago"
 
 # 3. Analyze commit patterns
-gitbrain validate --range HEAD~50..HEAD
+gitbro validate --range HEAD~50..HEAD
 ```
 
 ### Advanced Usage Patterns
@@ -397,50 +397,50 @@ gitbrain validate --range HEAD~50..HEAD
 ```bash
 # Stage related files and get comprehensive explanation
 git add src/models/ src/views/ src/templates/
-gitbrain explain --staged
+gitbro explain --staged
 # AI explains how all the changes work together
 ```
 
 #### **Branch Management**
 ```bash
 # Get branch suggestions from any commit
-gitbrain branch-suggest --from-commit abc123
+gitbro branch-suggest --from-commit abc123
 
 # Create feature branches with AI-suggested names
 git stash  # Save current work
-gitbrain branch-suggest --create
+gitbro branch-suggest --create
 git stash pop  # Resume work on new branch
 
 # Clean up merged branches after successful PRs
-gitbrain clean-branches --remote
+gitbro clean-branches --remote
 
 # Preview what branches would be cleaned
-gitbrain clean-branches --dry-run --remote
+gitbro clean-branches --dry-run --remote
 ```
 
 #### **Commit Message Refinement**
 ```bash
 # Generate conventional commits with different creativity levels
-gitbrain commit --conventional --temperature 0.2  # Conservative
-gitbrain commit --conventional --temperature 1.5  # Creative
+gitbro commit --conventional --temperature 0.2  # Conservative
+gitbro commit --conventional --temperature 1.5  # Creative
 
 # Auto-commit for small changes
-gitbrain commit --auto --conventional
+gitbro commit --auto --conventional
 ```
 
 #### **Team Collaboration**
 ```bash
 # Summarize team activity
-gitbrain summarize --since "1 week ago" --format summary
+gitbro summarize --since "1 week ago" --format summary
 
 # Validate team's commit quality
-gitbrain validate --conventional --range origin/main..HEAD
+gitbro validate --conventional --range origin/main..HEAD
 ```
 
 #### **Integration with Git Hooks**
 ```bash
 # Install comprehensive pre-commit validation
-gitbrain install-hook
+gitbro install-hook
 
 # The hook automatically:
 # - Validates commit message format
@@ -453,25 +453,25 @@ gitbrain install-hook
 #### **Complete Feature Development**
 ```bash
 # The full AI-assisted development cycle
-gitbrain interactive-add          # Smart staging
-gitbrain commit --conventional    # Structured commit
-gitbrain validate --conventional  # Quality check
-gitbrain branch-suggest --create  # Next feature setup
+gitbro interactive-add          # Smart staging
+gitbro commit --conventional    # Structured commit
+gitbro validate --conventional  # Quality check
+gitbro branch-suggest --create  # Next feature setup
 ```
 
 #### **Code Review Package**
 ```bash
 # Prepare comprehensive review materials
-gitbrain explain > CHANGES.md
-gitbrain summarize --format changelog >> CHANGES.md
-gitbrain validate --conventional --fix
+gitbro explain > CHANGES.md
+gitbro summarize --format changelog >> CHANGES.md
+gitbro validate --conventional --fix
 ```
 
 #### **Release Documentation**
 ```bash
 # Generate complete release documentation
-gitbrain summarize --format release-notes --since "v1.0.0" > RELEASE_NOTES.md
-gitbrain summarize --format changelog --since "v1.0.0" > CHANGELOG.md
+gitbro summarize --format release-notes --since "v1.0.0" > RELEASE_NOTES.md
+gitbro summarize --format changelog --since "v1.0.0" > CHANGELOG.md
 ```
 
 ## 🤖 Supported AI Providers
@@ -492,58 +492,58 @@ gitbrain summarize --format changelog --since "v1.0.0" > CHANGELOG.md
 vim src/feature.py
 
 # 2. Get AI explanation of changes
-gitbrain explain
+gitbro explain
 
 # 3. Interactively stage changes with AI help
-gitbrain interactive-add
+gitbro interactive-add
 
 # 4. Generate and commit with AI message
-gitbrain commit --conventional
+gitbro commit --conventional
 
 # 5. Get suggested branch name for next feature
-gitbrain branch-suggest --create
+gitbro branch-suggest --create
 ```
 
 ### Release Preparation
 
 ```bash
 # 1. Validate all commit messages
-gitbrain validate --conventional --fix
+gitbro validate --conventional --fix
 
 # 2. Generate changelog for release
-gitbrain summarize --format changelog --since "v1.0.0"
+gitbro summarize --format changelog --since "v1.0.0"
 
 # 3. Create release notes
-gitbrain summarize --format release-notes --since "v1.0.0"
+gitbro summarize --format release-notes --since "v1.0.0"
 ```
 
 ### Code Review Preparation
 
 ```bash
 # 1. Explain all changes for reviewers
-gitbrain explain
+gitbro explain
 
 # 2. Summarize the branch's purpose
-gitbrain summarize --branch feature/new-auth
+gitbro summarize --branch feature/new-auth
 
 # 3. Validate commit message quality
-gitbrain validate --conventional
+gitbro validate --conventional
 ```
 
 ### Post-Merge Branch Cleanup
 
 ```bash
 # 1. After successful PR merge, clean up local branches
-gitbrain clean-branches
+gitbro clean-branches
 
 # 2. Clean up both local and remote branches
-gitbrain clean-branches --remote
+gitbro clean-branches --remote
 
 # 3. Set up aliases for regular cleanup
-gitbrain clean-branches --generate-alias
+gitbro clean-branches --generate-alias
 
 # 4. Regular maintenance with dry-run preview
-gitbrain clean-branches --dry-run --remote
+gitbro clean-branches --dry-run --remote
 ```
 
 ## ⚙️ Configuration
@@ -566,7 +566,7 @@ Full support for [Conventional Commits](https://www.conventionalcommits.org/) fo
 - `chore`: Maintenance tasks
 
 ### Configuration File
-Settings stored in `~/.gitbrain/config.json`:
+Settings stored in `~/.gitbro/config.json`:
 ```json
 {
   "provider": "ollama",
@@ -586,23 +586,23 @@ Settings stored in `~/.gitbrain/config.json`:
 ### Workflow Integration
 
 #### **Daily Development Routine**
-1. **Morning Setup**: `gitbrain status` - Check your AI provider is ready
-2. **Feature Work**: Use `gitbrain explain` to understand changes before committing
-3. **Smart Staging**: `gitbrain interactive-add` for complex changes
+1. **Morning Setup**: `gitbro status` - Check your AI provider is ready
+2. **Feature Work**: Use `gitbro explain` to understand changes before committing
+3. **Smart Staging**: `gitbro interactive-add` for complex changes
 4. **Quality Commits**: Always use `--conventional` flag for team projects
-5. **Branch Management**: `gitbrain branch-suggest --create` for new features
-6. **Post-Merge Cleanup**: `gitbrain clean-branches --remote` after successful PRs
+5. **Branch Management**: `gitbro branch-suggest --create` for new features
+6. **Post-Merge Cleanup**: `gitbro clean-branches --remote` after successful PRs
 
 #### **Team Best Practices**
 ```bash
 # Setup pre-commit hooks for the entire team
-gitbrain install-hook
+gitbro install-hook
 
 # Establish commit standards
-gitbrain validate --conventional --fix
+gitbro validate --conventional --fix
 
 # Regular commit quality audits
-gitbrain validate --range origin/main..HEAD --conventional
+gitbro validate --range origin/main..HEAD --conventional
 ```
 
 #### **Effective Prompt Usage**
@@ -613,14 +613,14 @@ gitbrain validate --range origin/main..HEAD --conventional
 #### **Command Chaining for Efficiency**
 ```bash
 # Complete feature workflow in one go
-gitbrain interactive-add && \
-gitbrain commit --conventional && \
-gitbrain branch-suggest --create
+gitbro interactive-add && \
+gitbro commit --conventional && \
+gitbro branch-suggest --create
 
 # Release preparation pipeline
-gitbrain validate --conventional --fix && \
-gitbrain summarize --format changelog > CHANGELOG.md && \
-gitbrain summarize --format release-notes > RELEASE.md
+gitbro validate --conventional --fix && \
+gitbro summarize --format changelog > CHANGELOG.md && \
+gitbro summarize --format release-notes > RELEASE.md
 ```
 
 ### Performance Tips
@@ -628,13 +628,13 @@ gitbrain summarize --format release-notes > RELEASE.md
 #### **Optimize for Large Repositories**
 ```bash
 # Focus on recent changes only
-gitbrain summarize --since "1 week ago"
+gitbro summarize --since "1 week ago"
 
 # Validate recent commits instead of entire history
-gitbrain validate --range HEAD~20..HEAD
+gitbro validate --range HEAD~20..HEAD
 
 # Explain specific files instead of entire diff
-gitbrain explain --file src/main.py
+gitbro explain --file src/main.py
 ```
 
 #### **Provider Selection by Use Case**
@@ -654,13 +654,13 @@ Add to your VS Code tasks.json:
     {
       "label": "AI Commit",
       "type": "shell",
-      "command": "gitbrain commit --conventional",
+      "command": "gitbro commit --conventional",
       "group": "build"
     },
     {
       "label": "Explain Changes",
       "type": "shell", 
-      "command": "gitbrain explain --staged",
+      "command": "gitbro explain --staged",
       "group": "build"
     }
   ]
@@ -671,21 +671,21 @@ Add to your VS Code tasks.json:
 ```bash
 # Add to ~/.gitconfig
 [alias]
-  ai-commit = !gitbrain commit --conventional
-  ai-explain = !gitbrain explain
-  ai-branch = !gitbrain branch-suggest --create
-  ai-validate = !gitbrain validate --conventional
+  ai-commit = !gitbro commit --conventional
+  ai-explain = !gitbro explain
+  ai-branch = !gitbro branch-suggest --create
+  ai-validate = !gitbro validate --conventional
 ```
 
 #### **Shell Aliases**
 ```bash
 # Add to ~/.bashrc or ~/.zshrc
-alias aic='gitbrain commit --conventional'
-alias aie='gitbrain explain'
-alias aib='gitbrain branch-suggest'
-alias ais='gitbrain summarize'
-alias aiv='gitbrain validate --conventional'
-alias aicb='gitbrain clean-branches --remote'
+alias aic='gitbro commit --conventional'
+alias aie='gitbro explain'
+alias aib='gitbro branch-suggest'
+alias ais='gitbro summarize'
+alias aiv='gitbro validate --conventional'
+alias aicb='gitbro clean-branches --remote'
 ```
 
 ## 🔧 Troubleshooting
@@ -694,7 +694,7 @@ alias aicb='gitbrain clean-branches --remote'
 
 **Provider not configured:**
 ```bash
-gitbrain setup
+gitbro setup
 ```
 
 **Ollama connection issues:**
@@ -716,13 +716,13 @@ git init
 ```bash
 # Stage your changes first
 git add .
-gitbrain commit
+gitbro commit
 ```
 
 **Command not found after installation:**
 ```bash
 # Make sure you're in the project directory and use full path
-./bin/gitbrain status
+./bin/gitbro status
 
 # Or add to PATH
 export PATH=$PATH:$(pwd)/bin
@@ -731,27 +731,27 @@ export PATH=$PATH:$(pwd)/bin
 **Slow AI responses:**
 ```bash
 # Switch to faster model
-gitbrain setup  # Choose lighter model
+gitbro setup  # Choose lighter model
 
 # Use Ollama for fastest local processing
-gitbrain setup ollama
+gitbro setup ollama
 ```
 
 ### Debug Mode
 For detailed error information, check the configuration and status:
 ```bash
-gitbrain status
+gitbro status
 ```
 
 ### Getting Help
 ```bash
 # General help
-gitbrain --help
+gitbro --help
 
 # Command-specific help
-gitbrain commit --help
-gitbrain summarize --help
-gitbrain validate --help
+gitbro commit --help
+gitbro summarize --help
+gitbro validate --help
 ```
 
 ## 🧩 Advanced Usage
@@ -767,10 +767,10 @@ The tool supports different prompt styles for different use cases:
 Process multiple files or commits efficiently:
 ```bash
 # Validate entire project history
-gitbrain validate --range HEAD~100..HEAD --conventional
+gitbro validate --range HEAD~100..HEAD --conventional
 
 # Explain changes across multiple files
-gitbrain explain --staged
+gitbro explain --staged
 ```
 
 ### Integration with Git Workflows
