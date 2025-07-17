@@ -522,5 +522,176 @@ def status():
         click.echo("No provider configured.")
 
 
+@cli.command('clean-branches')
+@click.option('--remote', '-r', is_flag=True, help='Also delete remote branches (requires confirmation)')
+@click.option('--force', '-f', is_flag=True, help='Skip confirmation prompts')
+@click.option('--dry-run', '-d', is_flag=True, help='Show what would be deleted without actually deleting')
+@click.option('--generate-alias', '-g', is_flag=True, help='Generate shell alias for quick reuse')
+def clean_branches(remote, force, dry_run, generate_alias):
+    """Clean up local and remote branches that have been merged into main."""
+    try:
+        repo = Repo('.')
+        
+        # Ensure we're on main and up to date
+        current_branch = repo.active_branch.name
+        
+        # Check if main branch exists
+        if 'main' not in [branch.name for branch in repo.branches]:
+            if 'master' in [branch.name for branch in repo.branches]:
+                main_branch = 'master'
+                click.echo("Using 'master' as the main branch.")
+            else:
+                click.echo("Error: Neither 'main' nor 'master' branch found.", err=True)
+                sys.exit(1)
+        else:
+            main_branch = 'main'
+        
+        if current_branch != main_branch:
+            if not force and not dry_run:
+                if not click.confirm(f"You're currently on '{current_branch}'. Switch to '{main_branch}'?"):
+                    click.echo("Aborted.")
+                    return
+            
+            if not dry_run:
+                click.echo(f"Switching to {main_branch}...")
+                repo.git.checkout(main_branch)
+        
+        if not dry_run:
+            click.echo(f"Updating {main_branch} from origin...")
+            try:
+                repo.git.pull('origin', main_branch)
+            except Exception as e:
+                click.echo(f"Warning: Could not pull from origin: {e}")
+        
+        # Get merged branches (excluding main/master and current branch)
+        try:
+            merged_output = repo.git.branch('--merged', main_branch)
+            merged_branches = []
+            
+            for line in merged_output.split('\n'):
+                branch = line.strip().replace('*', '').strip()
+                if branch and branch not in [main_branch, 'master'] and not branch.startswith('('):
+                    merged_branches.append(branch)
+            
+            if not merged_branches:
+                click.echo(f"✅ No local branches to clean up! All branches are either unmerged or are the {main_branch} branch.")
+            else:
+                click.echo(f"\n🔍 Local branches merged into {main_branch}:")
+                for branch in merged_branches:
+                    click.echo(f"  • {branch}")
+                
+                if dry_run:
+                    click.echo(f"\n[DRY RUN] Would delete {len(merged_branches)} local branch(es)")
+                else:
+                    if not force:
+                        if not click.confirm(f"\nDelete {len(merged_branches)} local branch(es)?"):
+                            click.echo("Skipped local branch deletion.")
+                        else:
+                            for branch in merged_branches:
+                                try:
+                                    repo.git.branch('-d', branch)
+                                    click.echo(f"  ✅ Deleted local branch: {branch}")
+                                except Exception as e:
+                                    click.echo(f"  ❌ Could not delete {branch}: {e}")
+                    else:
+                        for branch in merged_branches:
+                            try:
+                                repo.git.branch('-d', branch)
+                                click.echo(f"  ✅ Deleted local branch: {branch}")
+                            except Exception as e:
+                                click.echo(f"  ❌ Could not delete {branch}: {e}")
+        
+        except Exception as e:
+            click.echo(f"Error getting merged branches: {e}", err=True)
+        
+        # Handle remote branches
+        if remote:
+            try:
+                remote_merged_output = repo.git.branch('-r', '--merged', f'origin/{main_branch}')
+                remote_branches = []
+                
+                for line in remote_merged_output.split('\n'):
+                    branch = line.strip()
+                    if branch and not branch.endswith(f'origin/{main_branch}') and branch.startswith('origin/'):
+                        branch_name = branch.replace('origin/', '')
+                        if branch_name not in [main_branch, 'master']:
+                            remote_branches.append(branch_name)
+                
+                if not remote_branches:
+                    click.echo(f"\n✅ No remote branches to clean up!")
+                else:
+                    click.echo(f"\n🔍 Remote branches merged into origin/{main_branch}:")
+                    for branch in remote_branches:
+                        click.echo(f"  • origin/{branch}")
+                    
+                    if dry_run:
+                        click.echo(f"\n[DRY RUN] Would delete {len(remote_branches)} remote branch(es)")
+                    else:
+                        if not force:
+                            if click.confirm(f"\nDelete {len(remote_branches)} remote branch(es)?"):
+                                for branch in remote_branches:
+                                    try:
+                                        repo.git.push('origin', '--delete', branch)
+                                        click.echo(f"  ✅ Deleted remote branch: origin/{branch}")
+                                    except Exception as e:
+                                        click.echo(f"  ❌ Could not delete origin/{branch}: {e}")
+                            else:
+                                click.echo("Skipped remote branch deletion.")
+                                click.echo(f"\n💡 You can manually delete remote branches with:")
+                                for branch in remote_branches:
+                                    click.echo(f"  git push origin --delete {branch}")
+                        else:
+                            for branch in remote_branches:
+                                try:
+                                    repo.git.push('origin', '--delete', branch)
+                                    click.echo(f"  ✅ Deleted remote branch: origin/{branch}")
+                                except Exception as e:
+                                    click.echo(f"  ❌ Could not delete origin/{branch}: {e}")
+            
+            except Exception as e:
+                click.echo(f"Error getting remote merged branches: {e}", err=True)
+        
+        # Generate alias if requested
+        if generate_alias:
+            _generate_alias()
+            
+        if not dry_run:
+            click.echo(f"\n🎉 Branch cleanup completed!")
+        
+    except InvalidGitRepositoryError:
+        click.echo("Error: Not in a Git repository.", err=True)
+        sys.exit(1)
+    except Exception as e:
+        click.echo(f"Error during branch cleanup: {e}", err=True)
+        sys.exit(1)
+
+
+def _generate_alias():
+    """Generate shell alias for the git clean-branches command."""
+    click.echo(f"\n📋 Shell Alias Generation")
+    click.echo("Add the following alias to your shell configuration (~/.bashrc, ~/.zshrc, etc.):")
+    click.echo("")
+    
+    # Basic alias
+    basic_alias = "alias git-clean-branches='ollamacommit clean-branches'"
+    click.echo(f"# Basic cleanup alias")
+    click.echo(basic_alias)
+    click.echo("")
+    
+    # Advanced alias with options
+    advanced_alias = "alias git-clean-all='ollamacommit clean-branches --remote'"
+    click.echo(f"# Advanced cleanup (includes remote branches)")
+    click.echo(advanced_alias)
+    click.echo("")
+    
+    # Dry run alias
+    dry_run_alias = "alias git-clean-preview='ollamacommit clean-branches --dry-run --remote'"
+    click.echo(f"# Preview what would be cleaned")
+    click.echo(dry_run_alias)
+    click.echo("")
+    
+    click.echo("💡 After adding to your shell config, run: source ~/.bashrc (or ~/.zshrc)")
+
+
 if __name__ == '__main__':
     cli() 

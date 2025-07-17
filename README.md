@@ -34,6 +34,7 @@ A comprehensive AI-assisted Git CLI tool that enhances developer workflow throug
 | `summarize` | Commit history summarization | `ollamacommit summarize --format changelog` |
 | `validate` | Commit message format checking | `ollamacommit validate --conventional --fix` |
 | `interactive-add` | AI-assisted staging | `ollamacommit interactive-add` |
+| `clean-branches` | Clean merged local/remote branches | `ollamacommit clean-branches --remote` |
 | `install-hook` | Pre-commit hook integration | `ollamacommit install-hook` |
 | `setup` | Configure AI providers | `ollamacommit setup ollama` |
 | `status` | Show configuration status | `ollamacommit status` |
@@ -232,6 +233,40 @@ The tool will:
 3. Ask whether to stage each change
 4. Show diffs when requested
 
+### `clean-branches` - Git Branch Cleanup
+
+Clean up local and remote branches that have been merged into main/master.
+
+```bash
+# Clean only local merged branches
+ollamacommit clean-branches
+
+# Clean both local and remote branches (with confirmation)
+ollamacommit clean-branches --remote
+
+# Preview what would be deleted without actually deleting
+ollamacommit clean-branches --dry-run --remote
+
+# Force deletion without confirmation prompts
+ollamacommit clean-branches --force --remote
+
+# Generate shell aliases for easy reuse
+ollamacommit clean-branches --generate-alias
+```
+
+**Options:**
+- `--remote, -r`: Also delete remote branches (requires confirmation)
+- `--force, -f`: Skip confirmation prompts
+- `--dry-run, -d`: Show what would be deleted without actually deleting
+- `--generate-alias, -g`: Generate shell alias for quick reuse
+
+**Safety Features:**
+- Automatically switches to main/master branch and pulls latest changes
+- Only deletes branches that are fully merged
+- Requires confirmation for remote branch deletion (unless `--force`)
+- Supports both `main` and `master` as the primary branch
+- Safe dry-run mode to preview changes
+
 ### `install-hook` - Pre-commit Integration
 
 Install Git hooks for automatic validation and message generation.
@@ -375,6 +410,12 @@ ollamacommit branch-suggest --from-commit abc123
 git stash  # Save current work
 ollamacommit branch-suggest --create
 git stash pop  # Resume work on new branch
+
+# Clean up merged branches after successful PRs
+ollamacommit clean-branches --remote
+
+# Preview what branches would be cleaned
+ollamacommit clean-branches --dry-run --remote
 ```
 
 #### **Commit Message Refinement**
@@ -489,6 +530,22 @@ ollamacommit summarize --branch feature/new-auth
 ollamacommit validate --conventional
 ```
 
+### Post-Merge Branch Cleanup
+
+```bash
+# 1. After successful PR merge, clean up local branches
+ollamacommit clean-branches
+
+# 2. Clean up both local and remote branches
+ollamacommit clean-branches --remote
+
+# 3. Set up aliases for regular cleanup
+ollamacommit clean-branches --generate-alias
+
+# 4. Regular maintenance with dry-run preview
+ollamacommit clean-branches --dry-run --remote
+```
+
 ## ⚙️ Configuration
 
 ### Temperature Settings
@@ -534,6 +591,7 @@ Settings stored in `~/.ollamacommit/config.json`:
 3. **Smart Staging**: `ollamacommit interactive-add` for complex changes
 4. **Quality Commits**: Always use `--conventional` flag for team projects
 5. **Branch Management**: `ollamacommit branch-suggest --create` for new features
+6. **Post-Merge Cleanup**: `ollamacommit clean-branches --remote` after successful PRs
 
 #### **Team Best Practices**
 ```bash
@@ -627,6 +685,7 @@ alias aie='ollamacommit explain'
 alias aib='ollamacommit branch-suggest'
 alias ais='ollamacommit summarize'
 alias aiv='ollamacommit validate --conventional'
+alias aicb='ollamacommit clean-branches --remote'
 ```
 
 ## 🔧 Troubleshooting
