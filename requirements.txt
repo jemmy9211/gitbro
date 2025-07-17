@@ -1,3 +1,6 @@
 requests
 langchain
 langchain_ollama
+openai>=1.0.0
+anthropic
+google-generativeai

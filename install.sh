@@ -8,30 +8,14 @@ command_exists() {
     command -v "$1" &> /dev/null
 }
 
+echo "Installing AI-powered Git Commit Message Generator..."
+echo "This tool supports multiple AI providers: OpenAI, Google Gemini, Anthropic Claude, and Ollama."
+echo ""
+
 # 0. Check if Git is installed
 if ! command_exists git; then
     echo "Error: git command not found. Git is required to use this tool."
     exit 1
-fi
-
-# 1. Check if Ollama is installed
-if ! command_exists ollama; then
-    echo "Ollama is not installed. Installing Ollama requires manual setup."
-    echo "Please visit https://ollama.com and follow the Linux installation instructions."
-    exit 1
-else
-    echo "Ollama is already installed."
-fi
-
-# 2. Check if the llama3.2 model is installed in Ollama
-if ! ollama list | grep -q "llama3.2"; then
-    echo "Downloading the llama3.2 model for Ollama..."
-    if ! ollama pull llama3.2; then
-        echo "Failed to download llama3.2 model. Please try again."
-        exit 1
-    fi
-else
-    echo "llama3.2 model is already installed in Ollama."
 fi
 
 # Check and install python3-venv if not present
@@ -61,7 +45,7 @@ if ! dpkg -l | grep -q python3-venv; then
     fi
 fi
 
-# 3. Create a virtual environment if it doesn't exist
+# Create a virtual environment if it doesn't exist
 if [ ! -d "$VENV_PATH" ]; then
     echo "Creating a virtual environment at $VENV_PATH..."
     python3 -m venv "$VENV_PATH"
@@ -74,7 +58,7 @@ fi
 # Activate the virtual environment
 source "$VENV_PATH/bin/activate"
 
-# 4. Install required Python packages from requirements.txt
+# Install required Python packages from requirements.txt
 echo "Installing Python packages from requirements.txt in the virtual environment..."
 if ! pip install -r requirements.txt; then
     echo "Failed to install packages from requirements.txt. Please check your virtual environment setup and requirements.txt."
@@ -83,7 +67,7 @@ if ! pip install -r requirements.txt; then
 fi
 echo "Python packages installed successfully from requirements.txt."
 
-# 5. Ensure the ollamacommit script is in bin/ and executable
+# Ensure the ollamacommit script is in bin/ and executable
 if [ ! -f "bin/ollamacommit" ]; then
     echo "Error: bin/ollamacommit not found. Please ensure the project structure is intact."
     deactivate
@@ -100,7 +84,22 @@ fi
 deactivate
 
 # Print success message
-echo "Installation complete! You can now use './bin/ollamacommit' to generate commit messages."
-echo "To run it globally, add the bin directory to your PATH:"
+echo ""
+echo "✓ Installation complete!"
+echo ""
+echo "Next steps:"
+echo "1. Set up an AI provider by running:"
+echo "   ./bin/ollamacommit --setup"
+echo ""
+echo "2. Available providers:"
+echo "   • OpenAI (GPT models) - Get API key from https://platform.openai.com/api-keys"
+echo "   • Google Gemini - Get API key from https://makersuite.google.com/app/apikey"
+echo "   • Anthropic Claude - Get API key from https://console.anthropic.com/account/keys"
+echo "   • Ollama (Local models) - Install from https://ollama.com (no API key needed)"
+echo ""
+echo "3. After setup, use './bin/ollamacommit' to generate commit messages."
+echo ""
+echo "To run globally, add the bin directory to your PATH:"
 echo "  export PATH=\$PATH:$(pwd)/bin"
-echo "Ensure that your local Ollama API server is running at http://localhost:11434."
+echo ""
+echo "For Ollama users: Ensure your local Ollama server is running with 'ollama serve'"

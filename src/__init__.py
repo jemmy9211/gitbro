@@ -1,0 +1,1 @@
+# AI-powered commit message generator package 
