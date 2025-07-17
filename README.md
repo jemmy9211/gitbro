@@ -778,6 +778,10 @@ gitbro explain --staged
 - **CI/CD integration**: Validate PR commit messages
 - **Release automation**: Generate changelogs automatically
 
+
+## Star
+![GitHub stars](https://img.shields.io/github/stars/jemmy9211/gitbro)
+
 ## 🤝 Contributing
 
 We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
