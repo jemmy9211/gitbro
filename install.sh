@@ -67,15 +67,15 @@ if ! pip install -r requirements.txt; then
 fi
 echo "Python packages installed successfully from requirements.txt."
 
-# Ensure the ollamacommit script is in bin/ and executable
-if [ ! -f "bin/ollamacommit" ]; then
-    echo "Error: bin/ollamacommit not found. Please ensure the project structure is intact."
+# Ensure the gitbrain script is in bin/ and executable
+if [ ! -f "bin/gitbrain" ]; then
+    echo "Error: bin/gitbrain not found. Please ensure the project structure is intact."
     deactivate
     exit 1
 fi
 
-if ! chmod +x "bin/ollamacommit"; then
-    echo "Failed to make bin/ollamacommit executable. Please check your permissions."
+if ! chmod +x "bin/gitbrain"; then
+    echo "Failed to make bin/gitbrain executable. Please check your permissions."
     deactivate
     exit 1
 fi
@@ -89,7 +89,7 @@ echo "✓ Installation complete!"
 echo ""
 echo "Next steps:"
 echo "1. Set up an AI provider by running:"
-echo "   ./bin/ollamacommit --setup"
+echo "   ./bin/gitbrain --setup"
 echo ""
 echo "2. Available providers:"
 echo "   • OpenAI (GPT models) - Get API key from https://platform.openai.com/api-keys"
@@ -97,7 +97,7 @@ echo "   • Google Gemini - Get API key from https://makersuite.google.com/app/
 echo "   • Anthropic Claude - Get API key from https://console.anthropic.com/account/keys"
 echo "   • Ollama (Local models) - Install from https://ollama.com (no API key needed)"
 echo ""
-echo "3. After setup, use './bin/ollamacommit' to generate commit messages."
+echo "3. After setup, use './bin/gitbrain' to generate commit messages."
 echo ""
 echo "To run globally, add the bin directory to your PATH:"
 echo "  export PATH=\$PATH:$(pwd)/bin"

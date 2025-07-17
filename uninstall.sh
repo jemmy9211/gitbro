@@ -3,7 +3,7 @@
 # Define the virtual environment path
 VENV_PATH="venv"
 
-echo "Starting Ollamacommit uninstallation process..."
+echo "Starting Gitbrain uninstallation process..."
 echo "Note: Removing the Ollama application itself, if chosen, will likely require sudo privileges for some operations."
 
 # Remove virtual environment if it exists
@@ -67,4 +67,4 @@ if [[ $remove_ollama =~ ^[Yy]$ ]]; then
     fi
 fi
 
-echo -e "\nOllamacommit uninstallation process complete!"
+echo -e "\nGitbrain uninstallation process complete!"

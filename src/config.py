@@ -8,7 +8,7 @@ class Config:
     """Configuration manager for API providers and settings."""
     
     def __init__(self):
-        self.config_dir = Path.home() / '.ollamacommit'
+        self.config_dir = Path.home() / '.gitbrain'
         self.config_file = self.config_dir / 'config.json'
         self.config_dir.mkdir(exist_ok=True)
         self._config = self._load_config()

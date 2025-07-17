@@ -18,7 +18,7 @@ from providers import get_provider
 
 
 @click.group()
-@click.version_option(version="2.0.0", prog_name="ollamacommit")
+@click.version_option(version="2.0.0", prog_name="gitbrain")
 @click.pass_context
 def cli(ctx):
     """AI-Powered Git CLI Tool for enhanced developer workflow."""
@@ -56,7 +56,7 @@ def commit(temperature, auto, conventional):
         # Generate commit message
         provider = get_provider()
         if not provider:
-            click.echo("No AI provider configured. Run 'ollamacommit setup' first.", err=True)
+            click.echo("No AI provider configured. Run 'gitbrain setup' first.", err=True)
             sys.exit(1)
         
         if conventional:
@@ -121,7 +121,7 @@ def branch_suggest(create, from_commit):
         
         provider = get_provider()
         if not provider:
-            click.echo("No AI provider configured. Run 'ollamacommit setup' first.", err=True)
+            click.echo("No AI provider configured. Run 'gitbrain setup' first.", err=True)
             sys.exit(1)
         
         # Override system prompt for branch naming
@@ -179,7 +179,7 @@ def explain(staged, file):
         
         provider = get_provider()
         if not provider:
-            click.echo("No AI provider configured. Run 'ollamacommit setup' first.", err=True)
+            click.echo("No AI provider configured. Run 'gitbrain setup' first.", err=True)
             sys.exit(1)
         
         # Override system prompt for explanation
@@ -230,7 +230,7 @@ def summarize(since, author, branch, format):
         
         provider = get_provider()
         if not provider:
-            click.echo("No AI provider configured. Run 'ollamacommit setup' first.", err=True)
+            click.echo("No AI provider configured. Run 'gitbrain setup' first.", err=True)
             sys.exit(1)
         
         # Override system prompt based on format
@@ -365,7 +365,7 @@ def interactive_add():
         
         provider = get_provider()
         if not provider:
-            click.echo("No AI provider configured. Run 'ollamacommit setup' first.", err=True)
+            click.echo("No AI provider configured. Run 'gitbrain setup' first.", err=True)
             sys.exit(1)
         
         # Split diff into chunks (simplified approach)
@@ -447,21 +447,21 @@ def install_hook(uninstall):
         
         # Create hook script
         hook_content = f'''#!/bin/bash
-# ollamacommit pre-commit hook
+# gitbrain pre-commit hook
 
 # Check if there are staged changes
 if git diff --cached --quiet; then
     exit 0
 fi
 
-echo "🤖 Running ollamacommit validation..."
+echo "🤖 Running gitbrain validation..."
 
 # Run commit message validation
 {sys.executable} -c "
 import sys
 sys.path.insert(0, '{Path(__file__).parent.parent / "src"}')
 from cli import cli
-sys.argv = ['ollamacommit', 'validate', '--range', 'HEAD~1..HEAD', '--conventional']
+sys.argv = ['gitbrain', 'validate', '--range', 'HEAD~1..HEAD', '--conventional']
 cli()
 "
 
@@ -474,7 +474,7 @@ if [ $? -ne 0 ]; then
 import sys
 sys.path.insert(0, '{Path(__file__).parent.parent / "src"}')
 from cli import cli
-sys.argv = ['ollamacommit', 'commit']
+sys.argv = ['gitbrain', 'commit']
 cli()
 "
     fi
@@ -501,9 +501,9 @@ def setup(provider):
     from generate_message import main as original_main
     
     if provider:
-        sys.argv = ['ollamacommit', '--setup', provider]
+        sys.argv = ['gitbrain', '--setup', provider]
     else:
-        sys.argv = ['ollamacommit', '--setup']
+        sys.argv = ['gitbrain', '--setup']
     
     original_main()
 
@@ -673,19 +673,19 @@ def _generate_alias():
     click.echo("")
     
     # Basic alias
-    basic_alias = "alias git-clean-branches='ollamacommit clean-branches'"
+    basic_alias = "alias git-clean-branches='gitbrain clean-branches'"
     click.echo(f"# Basic cleanup alias")
     click.echo(basic_alias)
     click.echo("")
     
     # Advanced alias with options
-    advanced_alias = "alias git-clean-all='ollamacommit clean-branches --remote'"
+    advanced_alias = "alias git-clean-all='gitbrain clean-branches --remote'"
     click.echo(f"# Advanced cleanup (includes remote branches)")
     click.echo(advanced_alias)
     click.echo("")
     
     # Dry run alias
-    dry_run_alias = "alias git-clean-preview='ollamacommit clean-branches --dry-run --remote'"
+    dry_run_alias = "alias git-clean-preview='gitbrain clean-branches --dry-run --remote'"
     click.echo(f"# Preview what would be cleaned")
     click.echo(dry_run_alias)
     click.echo("")

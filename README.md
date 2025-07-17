@@ -1,4 +1,4 @@
-# 🧠 AI-Powered Git CLI Tool (ollamacommit v2.0)
+# 🧠 AI-Powered Git CLI Tool (gitbrain v2.0)
 
 A comprehensive AI-assisted Git CLI tool that enhances developer workflow through smart commit handling, diff summarization, branch naming, validation, and more. Choose from OpenAI GPT models, Google Gemini, Anthropic Claude, or local Ollama models.
 
@@ -28,23 +28,23 @@ A comprehensive AI-assisted Git CLI tool that enhances developer workflow throug
 
 | Command | Description | Example |
 |---------|-------------|---------|
-| `commit` | Generate AI-powered commit messages | `ollamacommit commit --conventional` |
-| `branch-suggest` | Suggest semantic branch names | `ollamacommit branch-suggest --create` |
-| `explain` | Human-friendly diff explanations | `ollamacommit explain --staged` |
-| `summarize` | Commit history summarization | `ollamacommit summarize --format changelog` |
-| `validate` | Commit message format checking | `ollamacommit validate --conventional --fix` |
-| `interactive-add` | AI-assisted staging | `ollamacommit interactive-add` |
-| `clean-branches` | Clean merged local/remote branches | `ollamacommit clean-branches --remote` |
-| `install-hook` | Pre-commit hook integration | `ollamacommit install-hook` |
-| `setup` | Configure AI providers | `ollamacommit setup ollama` |
-| `status` | Show configuration status | `ollamacommit status` |
+| `commit` | Generate AI-powered commit messages | `gitbrain commit --conventional` |
+| `branch-suggest` | Suggest semantic branch names | `gitbrain branch-suggest --create` |
+| `explain` | Human-friendly diff explanations | `gitbrain explain --staged` |
+| `summarize` | Commit history summarization | `gitbrain summarize --format changelog` |
+| `validate` | Commit message format checking | `gitbrain validate --conventional --fix` |
+| `interactive-add` | AI-assisted staging | `gitbrain interactive-add` |
+| `clean-branches` | Clean merged local/remote branches | `gitbrain clean-branches --remote` |
+| `install-hook` | Pre-commit hook integration | `gitbrain install-hook` |
+| `setup` | Configure AI providers | `gitbrain setup ollama` |
+| `status` | Show configuration status | `gitbrain status` |
 
 ## 📦 Installation
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/yourusername/ollamacommit.git
-   cd ollamacommit
+   git clone https://github.com/yourusername/gitbrain.git
+   cd gitbrain
    ```
 
 2. **Run the Installation Script:**
@@ -58,14 +58,14 @@ A comprehensive AI-assisted Git CLI tool that enhances developer workflow throug
 
 3. **Set Up an AI Provider:**
    ```bash
-   ollamacommit setup
+   gitbrain setup
    ```
    Choose from the interactive menu or specify directly:
    ```bash
-   ollamacommit setup openai    # For OpenAI
-   ollamacommit setup gemini    # For Google Gemini
-   ollamacommit setup claude    # For Anthropic Claude
-   ollamacommit setup ollama    # For Ollama (local)
+   gitbrain setup openai    # For OpenAI
+   gitbrain setup gemini    # For Google Gemini
+   gitbrain setup claude    # For Anthropic Claude
+   gitbrain setup ollama    # For Ollama (local)
    ```
 
 ## 🎯 Quick Start Guide
@@ -74,7 +74,7 @@ A comprehensive AI-assisted Git CLI tool that enhances developer workflow throug
 
 1. **Check your setup:**
    ```bash
-   ollamacommit status
+   gitbrain status
    ```
 
 2. **Make some changes and stage them:**
@@ -85,20 +85,20 @@ A comprehensive AI-assisted Git CLI tool that enhances developer workflow throug
 
 3. **Generate an AI commit message:**
    ```bash
-   ollamacommit commit
+   gitbrain commit
    # Output: Add hello.js with greeting message
    ```
 
 4. **Get AI explanation of your changes:**
    ```bash
-   ollamacommit explain --staged
+   gitbrain explain --staged
    # Output: 📝 Change Explanation:
    # This change adds a new JavaScript file that prints a greeting message to the console...
    ```
 
 5. **Get a semantic branch name suggestion:**
    ```bash
-   ollamacommit branch-suggest
+   gitbrain branch-suggest
    # Output: Suggested branch name: feat/add-hello-script
    ```
 
@@ -110,16 +110,16 @@ Generate meaningful commit messages from staged changes.
 
 ```bash
 # Basic usage
-ollamacommit commit
+gitbrain commit
 
 # Use Conventional Commits format
-ollamacommit commit --conventional
+gitbrain commit --conventional
 
 # Auto-commit without confirmation
-ollamacommit commit --auto
+gitbrain commit --auto
 
 # Adjust creativity level
-ollamacommit commit --temperature 1.2
+gitbrain commit --temperature 1.2
 ```
 
 **Options:**
@@ -133,13 +133,13 @@ Generate branch names based on code changes.
 
 ```bash
 # Suggest branch name from staged changes
-ollamacommit branch-suggest
+gitbrain branch-suggest
 
 # Auto-create the suggested branch
-ollamacommit branch-suggest --create
+gitbrain branch-suggest --create
 
 # Generate name from specific commit
-ollamacommit branch-suggest --from-commit abc123
+gitbrain branch-suggest --from-commit abc123
 ```
 
 **Options:**
@@ -152,13 +152,13 @@ Get plain English explanations of your code changes.
 
 ```bash
 # Explain working directory changes
-ollamacommit explain
+gitbrain explain
 
 # Explain only staged changes
-ollamacommit explain --staged
+gitbrain explain --staged
 
 # Explain changes in specific file
-ollamacommit explain --file src/main.py
+gitbrain explain --file src/main.py
 ```
 
 **Options:**
@@ -171,22 +171,22 @@ Generate summaries, changelogs, and release notes from commit history.
 
 ```bash
 # Basic summary of recent commits
-ollamacommit summarize
+gitbrain summarize
 
 # Generate a changelog
-ollamacommit summarize --format changelog
+gitbrain summarize --format changelog
 
 # Create release notes
-ollamacommit summarize --format release-notes
+gitbrain summarize --format release-notes
 
 # Filter by time period
-ollamacommit summarize --since "1 week ago"
+gitbrain summarize --since "1 week ago"
 
 # Filter by author
-ollamacommit summarize --author "john@example.com"
+gitbrain summarize --author "john@example.com"
 
 # Summarize specific branch
-ollamacommit summarize --branch feature/new-auth
+gitbrain summarize --branch feature/new-auth
 ```
 
 **Options:**
@@ -201,16 +201,16 @@ Check commit messages against formatting conventions.
 
 ```bash
 # Validate last 10 commits
-ollamacommit validate
+gitbrain validate
 
 # Validate against Conventional Commits
-ollamacommit validate --conventional
+gitbrain validate --conventional
 
 # Suggest fixes for invalid messages
-ollamacommit validate --conventional --fix
+gitbrain validate --conventional --fix
 
 # Validate specific commit range
-ollamacommit validate --range HEAD~5..HEAD
+gitbrain validate --range HEAD~5..HEAD
 ```
 
 **Options:**
@@ -224,7 +224,7 @@ Get AI recommendations for staging changes.
 
 ```bash
 # Launch interactive staging with AI analysis
-ollamacommit interactive-add
+gitbrain interactive-add
 ```
 
 The tool will:
@@ -239,19 +239,19 @@ Clean up local and remote branches that have been merged into main/master.
 
 ```bash
 # Clean only local merged branches
-ollamacommit clean-branches
+gitbrain clean-branches
 
 # Clean both local and remote branches (with confirmation)
-ollamacommit clean-branches --remote
+gitbrain clean-branches --remote
 
 # Preview what would be deleted without actually deleting
-ollamacommit clean-branches --dry-run --remote
+gitbrain clean-branches --dry-run --remote
 
 # Force deletion without confirmation prompts
-ollamacommit clean-branches --force --remote
+gitbrain clean-branches --force --remote
 
 # Generate shell aliases for easy reuse
-ollamacommit clean-branches --generate-alias
+gitbrain clean-branches --generate-alias
 ```
 
 **Options:**
@@ -273,10 +273,10 @@ Install Git hooks for automatic validation and message generation.
 
 ```bash
 # Install pre-commit hook
-ollamacommit install-hook
+gitbrain install-hook
 
 # Remove pre-commit hook
-ollamacommit install-hook --uninstall
+gitbrain install-hook --uninstall
 ```
 
 The hook will:
@@ -290,13 +290,13 @@ Manage AI provider configuration.
 
 ```bash
 # Interactive provider setup
-ollamacommit setup
+gitbrain setup
 
 # Setup specific provider
-ollamacommit setup ollama
+gitbrain setup ollama
 
 # Check configuration status
-ollamacommit status
+gitbrain status
 ```
 
 ## 💡 Usage Examples
@@ -312,19 +312,19 @@ vim src/login.html
 vim tests/test_auth.py
 
 # 2. Check what you've changed
-ollamacommit explain
+gitbrain explain
 # Output: This adds user authentication functionality with login form and tests
 
 # 3. Interactively stage changes with AI recommendations
-ollamacommit interactive-add
+gitbrain interactive-add
 # AI will analyze each file and recommend whether to stage it
 
 # 4. Generate a conventional commit
-ollamacommit commit --conventional
+gitbrain commit --conventional
 # Output: feat(auth): add user login functionality with form validation
 
 # 5. Get branch name for next feature
-ollamacommit branch-suggest --create
+gitbrain branch-suggest --create
 # Creates and switches to: feat/password-reset
 ```
 
@@ -338,11 +338,11 @@ vim src/api.py  # Fix timeout issue
 git add src/api.py
 
 # 3. Generate commit with higher creativity for better description
-ollamacommit commit --temperature 1.2
+gitbrain commit --temperature 1.2
 # Output: Fix API timeout issue by increasing request timeout from 5s to 30s
 
 # 4. Validate the commit message format
-ollamacommit validate --conventional --range HEAD~1..HEAD
+gitbrain validate --conventional --range HEAD~1..HEAD
 # Ensures your commit follows standards
 ```
 
@@ -350,15 +350,15 @@ ollamacommit validate --conventional --range HEAD~1..HEAD
 
 ```bash
 # 1. Explain all changes for reviewers
-ollamacommit explain
+gitbrain explain
 # Get plain English explanation of your work
 
 # 2. Summarize your feature branch
-ollamacommit summarize --branch feature/user-profiles
+gitbrain summarize --branch feature/user-profiles
 # Generate overview of all commits in the branch
 
 # 3. Validate all commit messages in the branch
-ollamacommit validate --conventional --fix --range main..HEAD
+gitbrain validate --conventional --fix --range main..HEAD
 # Check and get suggestions for improving commit messages
 ```
 
@@ -366,29 +366,29 @@ ollamacommit validate --conventional --fix --range main..HEAD
 
 ```bash
 # 1. Generate changelog since last release
-ollamacommit summarize --format changelog --since "v1.2.0"
+gitbrain summarize --format changelog --since "v1.2.0"
 
 # 2. Create release notes
-ollamacommit summarize --format release-notes --since "v1.2.0"
+gitbrain summarize --format release-notes --since "v1.2.0"
 
 # 3. Validate all commits since last release
-ollamacommit validate --conventional --range v1.2.0..HEAD
+gitbrain validate --conventional --range v1.2.0..HEAD
 
 # 4. Install pre-commit hook for future quality
-ollamacommit install-hook
+gitbrain install-hook
 ```
 
 #### 🔍 **Understanding Legacy Code**
 
 ```bash
 # 1. Understand changes in specific files
-ollamacommit explain --file src/legacy_module.py
+gitbrain explain --file src/legacy_module.py
 
 # 2. Get summary of recent activity by specific author
-ollamacommit summarize --author "senior.dev@company.com" --since "1 month ago"
+gitbrain summarize --author "senior.dev@company.com" --since "1 month ago"
 
 # 3. Analyze commit patterns
-ollamacommit validate --range HEAD~50..HEAD
+gitbrain validate --range HEAD~50..HEAD
 ```
 
 ### Advanced Usage Patterns
@@ -397,50 +397,50 @@ ollamacommit validate --range HEAD~50..HEAD
 ```bash
 # Stage related files and get comprehensive explanation
 git add src/models/ src/views/ src/templates/
-ollamacommit explain --staged
+gitbrain explain --staged
 # AI explains how all the changes work together
 ```
 
 #### **Branch Management**
 ```bash
 # Get branch suggestions from any commit
-ollamacommit branch-suggest --from-commit abc123
+gitbrain branch-suggest --from-commit abc123
 
 # Create feature branches with AI-suggested names
 git stash  # Save current work
-ollamacommit branch-suggest --create
+gitbrain branch-suggest --create
 git stash pop  # Resume work on new branch
 
 # Clean up merged branches after successful PRs
-ollamacommit clean-branches --remote
+gitbrain clean-branches --remote
 
 # Preview what branches would be cleaned
-ollamacommit clean-branches --dry-run --remote
+gitbrain clean-branches --dry-run --remote
 ```
 
 #### **Commit Message Refinement**
 ```bash
 # Generate conventional commits with different creativity levels
-ollamacommit commit --conventional --temperature 0.2  # Conservative
-ollamacommit commit --conventional --temperature 1.5  # Creative
+gitbrain commit --conventional --temperature 0.2  # Conservative
+gitbrain commit --conventional --temperature 1.5  # Creative
 
 # Auto-commit for small changes
-ollamacommit commit --auto --conventional
+gitbrain commit --auto --conventional
 ```
 
 #### **Team Collaboration**
 ```bash
 # Summarize team activity
-ollamacommit summarize --since "1 week ago" --format summary
+gitbrain summarize --since "1 week ago" --format summary
 
 # Validate team's commit quality
-ollamacommit validate --conventional --range origin/main..HEAD
+gitbrain validate --conventional --range origin/main..HEAD
 ```
 
 #### **Integration with Git Hooks**
 ```bash
 # Install comprehensive pre-commit validation
-ollamacommit install-hook
+gitbrain install-hook
 
 # The hook automatically:
 # - Validates commit message format
@@ -453,25 +453,25 @@ ollamacommit install-hook
 #### **Complete Feature Development**
 ```bash
 # The full AI-assisted development cycle
-ollamacommit interactive-add          # Smart staging
-ollamacommit commit --conventional    # Structured commit
-ollamacommit validate --conventional  # Quality check
-ollamacommit branch-suggest --create  # Next feature setup
+gitbrain interactive-add          # Smart staging
+gitbrain commit --conventional    # Structured commit
+gitbrain validate --conventional  # Quality check
+gitbrain branch-suggest --create  # Next feature setup
 ```
 
 #### **Code Review Package**
 ```bash
 # Prepare comprehensive review materials
-ollamacommit explain > CHANGES.md
-ollamacommit summarize --format changelog >> CHANGES.md
-ollamacommit validate --conventional --fix
+gitbrain explain > CHANGES.md
+gitbrain summarize --format changelog >> CHANGES.md
+gitbrain validate --conventional --fix
 ```
 
 #### **Release Documentation**
 ```bash
 # Generate complete release documentation
-ollamacommit summarize --format release-notes --since "v1.0.0" > RELEASE_NOTES.md
-ollamacommit summarize --format changelog --since "v1.0.0" > CHANGELOG.md
+gitbrain summarize --format release-notes --since "v1.0.0" > RELEASE_NOTES.md
+gitbrain summarize --format changelog --since "v1.0.0" > CHANGELOG.md
 ```
 
 ## 🤖 Supported AI Providers
@@ -492,58 +492,58 @@ ollamacommit summarize --format changelog --since "v1.0.0" > CHANGELOG.md
 vim src/feature.py
 
 # 2. Get AI explanation of changes
-ollamacommit explain
+gitbrain explain
 
 # 3. Interactively stage changes with AI help
-ollamacommit interactive-add
+gitbrain interactive-add
 
 # 4. Generate and commit with AI message
-ollamacommit commit --conventional
+gitbrain commit --conventional
 
 # 5. Get suggested branch name for next feature
-ollamacommit branch-suggest --create
+gitbrain branch-suggest --create
 ```
 
 ### Release Preparation
 
 ```bash
 # 1. Validate all commit messages
-ollamacommit validate --conventional --fix
+gitbrain validate --conventional --fix
 
 # 2. Generate changelog for release
-ollamacommit summarize --format changelog --since "v1.0.0"
+gitbrain summarize --format changelog --since "v1.0.0"
 
 # 3. Create release notes
-ollamacommit summarize --format release-notes --since "v1.0.0"
+gitbrain summarize --format release-notes --since "v1.0.0"
 ```
 
 ### Code Review Preparation
 
 ```bash
 # 1. Explain all changes for reviewers
-ollamacommit explain
+gitbrain explain
 
 # 2. Summarize the branch's purpose
-ollamacommit summarize --branch feature/new-auth
+gitbrain summarize --branch feature/new-auth
 
 # 3. Validate commit message quality
-ollamacommit validate --conventional
+gitbrain validate --conventional
 ```
 
 ### Post-Merge Branch Cleanup
 
 ```bash
 # 1. After successful PR merge, clean up local branches
-ollamacommit clean-branches
+gitbrain clean-branches
 
 # 2. Clean up both local and remote branches
-ollamacommit clean-branches --remote
+gitbrain clean-branches --remote
 
 # 3. Set up aliases for regular cleanup
-ollamacommit clean-branches --generate-alias
+gitbrain clean-branches --generate-alias
 
 # 4. Regular maintenance with dry-run preview
-ollamacommit clean-branches --dry-run --remote
+gitbrain clean-branches --dry-run --remote
 ```
 
 ## ⚙️ Configuration
@@ -566,7 +566,7 @@ Full support for [Conventional Commits](https://www.conventionalcommits.org/) fo
 - `chore`: Maintenance tasks
 
 ### Configuration File
-Settings stored in `~/.ollamacommit/config.json`:
+Settings stored in `~/.gitbrain/config.json`:
 ```json
 {
   "provider": "ollama",
@@ -586,23 +586,23 @@ Settings stored in `~/.ollamacommit/config.json`:
 ### Workflow Integration
 
 #### **Daily Development Routine**
-1. **Morning Setup**: `ollamacommit status` - Check your AI provider is ready
-2. **Feature Work**: Use `ollamacommit explain` to understand changes before committing
-3. **Smart Staging**: `ollamacommit interactive-add` for complex changes
+1. **Morning Setup**: `gitbrain status` - Check your AI provider is ready
+2. **Feature Work**: Use `gitbrain explain` to understand changes before committing
+3. **Smart Staging**: `gitbrain interactive-add` for complex changes
 4. **Quality Commits**: Always use `--conventional` flag for team projects
-5. **Branch Management**: `ollamacommit branch-suggest --create` for new features
-6. **Post-Merge Cleanup**: `ollamacommit clean-branches --remote` after successful PRs
+5. **Branch Management**: `gitbrain branch-suggest --create` for new features
+6. **Post-Merge Cleanup**: `gitbrain clean-branches --remote` after successful PRs
 
 #### **Team Best Practices**
 ```bash
 # Setup pre-commit hooks for the entire team
-ollamacommit install-hook
+gitbrain install-hook
 
 # Establish commit standards
-ollamacommit validate --conventional --fix
+gitbrain validate --conventional --fix
 
 # Regular commit quality audits
-ollamacommit validate --range origin/main..HEAD --conventional
+gitbrain validate --range origin/main..HEAD --conventional
 ```
 
 #### **Effective Prompt Usage**
@@ -613,14 +613,14 @@ ollamacommit validate --range origin/main..HEAD --conventional
 #### **Command Chaining for Efficiency**
 ```bash
 # Complete feature workflow in one go
-ollamacommit interactive-add && \
-ollamacommit commit --conventional && \
-ollamacommit branch-suggest --create
+gitbrain interactive-add && \
+gitbrain commit --conventional && \
+gitbrain branch-suggest --create
 
 # Release preparation pipeline
-ollamacommit validate --conventional --fix && \
-ollamacommit summarize --format changelog > CHANGELOG.md && \
-ollamacommit summarize --format release-notes > RELEASE.md
+gitbrain validate --conventional --fix && \
+gitbrain summarize --format changelog > CHANGELOG.md && \
+gitbrain summarize --format release-notes > RELEASE.md
 ```
 
 ### Performance Tips
@@ -628,13 +628,13 @@ ollamacommit summarize --format release-notes > RELEASE.md
 #### **Optimize for Large Repositories**
 ```bash
 # Focus on recent changes only
-ollamacommit summarize --since "1 week ago"
+gitbrain summarize --since "1 week ago"
 
 # Validate recent commits instead of entire history
-ollamacommit validate --range HEAD~20..HEAD
+gitbrain validate --range HEAD~20..HEAD
 
 # Explain specific files instead of entire diff
-ollamacommit explain --file src/main.py
+gitbrain explain --file src/main.py
 ```
 
 #### **Provider Selection by Use Case**
@@ -654,13 +654,13 @@ Add to your VS Code tasks.json:
     {
       "label": "AI Commit",
       "type": "shell",
-      "command": "ollamacommit commit --conventional",
+      "command": "gitbrain commit --conventional",
       "group": "build"
     },
     {
       "label": "Explain Changes",
       "type": "shell", 
-      "command": "ollamacommit explain --staged",
+      "command": "gitbrain explain --staged",
       "group": "build"
     }
   ]
@@ -671,21 +671,21 @@ Add to your VS Code tasks.json:
 ```bash
 # Add to ~/.gitconfig
 [alias]
-  ai-commit = !ollamacommit commit --conventional
-  ai-explain = !ollamacommit explain
-  ai-branch = !ollamacommit branch-suggest --create
-  ai-validate = !ollamacommit validate --conventional
+  ai-commit = !gitbrain commit --conventional
+  ai-explain = !gitbrain explain
+  ai-branch = !gitbrain branch-suggest --create
+  ai-validate = !gitbrain validate --conventional
 ```
 
 #### **Shell Aliases**
 ```bash
 # Add to ~/.bashrc or ~/.zshrc
-alias aic='ollamacommit commit --conventional'
-alias aie='ollamacommit explain'
-alias aib='ollamacommit branch-suggest'
-alias ais='ollamacommit summarize'
-alias aiv='ollamacommit validate --conventional'
-alias aicb='ollamacommit clean-branches --remote'
+alias aic='gitbrain commit --conventional'
+alias aie='gitbrain explain'
+alias aib='gitbrain branch-suggest'
+alias ais='gitbrain summarize'
+alias aiv='gitbrain validate --conventional'
+alias aicb='gitbrain clean-branches --remote'
 ```
 
 ## 🔧 Troubleshooting
@@ -694,7 +694,7 @@ alias aicb='ollamacommit clean-branches --remote'
 
 **Provider not configured:**
 ```bash
-ollamacommit setup
+gitbrain setup
 ```
 
 **Ollama connection issues:**
@@ -716,13 +716,13 @@ git init
 ```bash
 # Stage your changes first
 git add .
-ollamacommit commit
+gitbrain commit
 ```
 
 **Command not found after installation:**
 ```bash
 # Make sure you're in the project directory and use full path
-./bin/ollamacommit status
+./bin/gitbrain status
 
 # Or add to PATH
 export PATH=$PATH:$(pwd)/bin
@@ -731,27 +731,27 @@ export PATH=$PATH:$(pwd)/bin
 **Slow AI responses:**
 ```bash
 # Switch to faster model
-ollamacommit setup  # Choose lighter model
+gitbrain setup  # Choose lighter model
 
 # Use Ollama for fastest local processing
-ollamacommit setup ollama
+gitbrain setup ollama
 ```
 
 ### Debug Mode
 For detailed error information, check the configuration and status:
 ```bash
-ollamacommit status
+gitbrain status
 ```
 
 ### Getting Help
 ```bash
 # General help
-ollamacommit --help
+gitbrain --help
 
 # Command-specific help
-ollamacommit commit --help
-ollamacommit summarize --help
-ollamacommit validate --help
+gitbrain commit --help
+gitbrain summarize --help
+gitbrain validate --help
 ```
 
 ## 🧩 Advanced Usage
@@ -767,10 +767,10 @@ The tool supports different prompt styles for different use cases:
 Process multiple files or commits efficiently:
 ```bash
 # Validate entire project history
-ollamacommit validate --range HEAD~100..HEAD --conventional
+gitbrain validate --range HEAD~100..HEAD --conventional
 
 # Explain changes across multiple files
-ollamacommit explain --staged
+gitbrain explain --staged
 ```
 
 ### Integration with Git Workflows
