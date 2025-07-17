@@ -1,26 +1,44 @@
-# AI-Powered Git Commit Message Generator
+# 🧠 AI-Powered Git CLI Tool (ollamacommit v2.0)
 
-A versatile command-line tool that generates meaningful Git commit messages from your staged changes using multiple AI providers. Choose from OpenAI GPT models, Google Gemini, Anthropic Claude, or local Ollama models.
+A comprehensive AI-assisted Git CLI tool that enhances developer workflow through smart commit handling, diff summarization, branch naming, validation, and more. Choose from OpenAI GPT models, Google Gemini, Anthropic Claude, or local Ollama models.
 
-## Features
+## 🚀 New in v2.0
+
+- **Multiple Subcommands**: 8 powerful AI-assisted Git workflow commands
+- **Semantic Branch Naming**: AI-generated branch names based on changes
+- **Diff Explanations**: Plain English explanations of code changes
+- **Commit History Summarization**: Generate changelogs and release notes
+- **Commit Message Validation**: Check against Conventional Commits format
+- **Interactive Staging**: AI-assisted `git add -p` experience
+- **Pre-commit Hooks**: Automated validation and message generation
+- **Enhanced CLI**: Built with Click for better user experience
+
+## 🧰 Features & Commands
+
+### Core Features
 
 - **Multiple AI Providers**: OpenAI, Google Gemini, Anthropic Claude, and Ollama
 - **Secure API Key Management**: Encrypted local storage of API credentials
 - **Interactive Setup**: Easy configuration wizard for each provider
-- **Creativity Control**: Adjust temperature for more or less creative commit messages
+- **Creativity Control**: Adjust temperature for more or less creative outputs
 - **Local & Cloud**: Use local models (Ollama) or cloud-based AI services
 - **Cross-Platform**: Works on Linux, macOS, and Windows
 
-## Supported AI Providers
+### Available Commands
 
-| Provider | Models | API Key Required | Cost |
-|----------|--------|------------------|------|
-| **OpenAI** | GPT-3.5-turbo, GPT-4, etc. | ✅ Yes | Pay per use |
-| **Google Gemini** | Gemini Pro | ✅ Yes | Free tier available |
-| **Anthropic Claude** | Claude 3 Haiku, Sonnet, Opus | ✅ Yes | Pay per use |
-| **Ollama** | Llama 3.2, Code Llama, etc. | ❌ No | Free (local) |
+| Command | Description | Example |
+|---------|-------------|---------|
+| `commit` | Generate AI-powered commit messages | `ollamacommit commit --conventional` |
+| `branch-suggest` | Suggest semantic branch names | `ollamacommit branch-suggest --create` |
+| `explain` | Human-friendly diff explanations | `ollamacommit explain --staged` |
+| `summarize` | Commit history summarization | `ollamacommit summarize --format changelog` |
+| `validate` | Commit message format checking | `ollamacommit validate --conventional --fix` |
+| `interactive-add` | AI-assisted staging | `ollamacommit interactive-add` |
+| `install-hook` | Pre-commit hook integration | `ollamacommit install-hook` |
+| `setup` | Configure AI providers | `ollamacommit setup ollama` |
+| `status` | Show configuration status | `ollamacommit status` |
 
-## Installation
+## 📦 Installation
 
 1. **Clone the Repository:**
    ```bash
@@ -34,237 +52,690 @@ A versatile command-line tool that generates meaningful Git commit messages from
    ```
    This script:
    - Creates a Python virtual environment
-   - Installs required dependencies (OpenAI, Anthropic, Google AI libraries)
+   - Installs required dependencies (OpenAI, Anthropic, Google AI, Click, GitPython)
    - Sets up the executable script
 
 3. **Set Up an AI Provider:**
    ```bash
-   ./bin/ollamacommit --setup
+   ollamacommit setup
    ```
    Choose from the interactive menu or specify directly:
    ```bash
-   ./bin/ollamacommit --setup openai    # For OpenAI
-   ./bin/ollamacommit --setup gemini    # For Google Gemini
-   ./bin/ollamacommit --setup claude    # For Anthropic Claude
-   ./bin/ollamacommit --setup ollama    # For Ollama (local)
+   ollamacommit setup openai    # For OpenAI
+   ollamacommit setup gemini    # For Google Gemini
+   ollamacommit setup claude    # For Anthropic Claude
+   ollamacommit setup ollama    # For Ollama (local)
    ```
 
-4. **(Optional) Add to PATH:**
+## 🎯 Quick Start Guide
+
+### Getting Started with New Features
+
+1. **Check your setup:**
    ```bash
-   export PATH=$PATH:$(pwd)/bin
+   ollamacommit status
    ```
-   Add this to your `~/.bashrc` or `~/.zshrc` for persistence.
 
-## Getting API Keys
-
-### OpenAI
-1. Visit [OpenAI Platform](https://platform.openai.com/api-keys)
-2. Create an account and navigate to API Keys
-3. Generate a new secret key
-4. Copy the key for setup
-
-### Google Gemini
-1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
-2. Sign in with your Google account
-3. Create a new API key
-4. Copy the key for setup
-
-### Anthropic Claude
-1. Visit [Anthropic Console](https://console.anthropic.com/account/keys)
-2. Create an account and verify your email
-3. Generate a new API key
-4. Copy the key for setup
-
-### Ollama (Local)
-1. Install Ollama from [ollama.com](https://ollama.com)
-2. Start the service: `ollama serve`
-3. Pull a model: `ollama pull llama3.2`
-4. No API key required!
-
-## Usage
-
-### Basic Usage
-
-1. **Stage your changes:**
+2. **Make some changes and stage them:**
    ```bash
-   git add .
+   echo "console.log('Hello AI!');" > hello.js
+   git add hello.js
    ```
 
-2. **Generate commit message:**
+3. **Generate an AI commit message:**
    ```bash
-   ./bin/ollamacommit
+   ollamacommit commit
+   # Output: Add hello.js with greeting message
    ```
-   Or if added to PATH:
+
+4. **Get AI explanation of your changes:**
    ```bash
-   ollamacommit
+   ollamacommit explain --staged
+   # Output: 📝 Change Explanation:
+   # This change adds a new JavaScript file that prints a greeting message to the console...
    ```
 
-### Advanced Options
+5. **Get a semantic branch name suggestion:**
+   ```bash
+   ollamacommit branch-suggest
+   # Output: Suggested branch name: feat/add-hello-script
+   ```
 
-- **Check configuration status:**
-  ```bash
-  ./bin/ollamacommit --status
-  ```
+## 🛠️ Command Reference
 
-- **Switch providers:**
-  ```bash
-  ./bin/ollamacommit --provider openai
-  ./bin/ollamacommit --provider gemini
-  ./bin/ollamacommit --provider claude
-  ./bin/ollamacommit --provider ollama
-  ```
+### `commit` - AI-Powered Commit Messages
 
-- **Reconfigure a provider:**
-  ```bash
-  ./bin/ollamacommit --setup openai
-  ```
+Generate meaningful commit messages from staged changes.
 
-### Interactive Workflow
+```bash
+# Basic usage
+ollamacommit commit
 
-When you run the tool, you'll see:
+# Use Conventional Commits format
+ollamacommit commit --conventional
 
-```
-Generated commit message:
-Add user authentication middleware
+# Auto-commit without confirmation
+ollamacommit commit --auto
 
-Please choose an action:
-1) Accept and commit
-2) Regenerate with more creativity  
-3) Cancel and exit
-Enter your choice (1-3):
+# Adjust creativity level
+ollamacommit commit --temperature 1.2
 ```
 
-- **Option 1**: Commits with the generated message
-- **Option 2**: Regenerates with higher temperature (more creative/varied)
-- **Option 3**: Exits without committing
+**Options:**
+- `--temperature, -t`: AI creativity level (0.0-2.0)
+- `--auto, -a`: Auto-commit with generated message
+- `--conventional, -c`: Use Conventional Commits format
 
-## Configuration
+### `branch-suggest` - Semantic Branch Naming
 
-Configuration is stored in `~/.ollamacommit/config.json` with the following structure:
+Generate branch names based on code changes.
 
+```bash
+# Suggest branch name from staged changes
+ollamacommit branch-suggest
+
+# Auto-create the suggested branch
+ollamacommit branch-suggest --create
+
+# Generate name from specific commit
+ollamacommit branch-suggest --from-commit abc123
+```
+
+**Options:**
+- `--create, -c`: Auto-create the suggested branch
+- `--from-commit`: Generate name from specific commit hash
+
+### `explain` - Code Change Explanations
+
+Get plain English explanations of your code changes.
+
+```bash
+# Explain working directory changes
+ollamacommit explain
+
+# Explain only staged changes
+ollamacommit explain --staged
+
+# Explain changes in specific file
+ollamacommit explain --file src/main.py
+```
+
+**Options:**
+- `--staged, -s`: Explain staged changes only
+- `--file, -f`: Explain changes in specific file
+
+### `summarize` - Commit History Analysis
+
+Generate summaries, changelogs, and release notes from commit history.
+
+```bash
+# Basic summary of recent commits
+ollamacommit summarize
+
+# Generate a changelog
+ollamacommit summarize --format changelog
+
+# Create release notes
+ollamacommit summarize --format release-notes
+
+# Filter by time period
+ollamacommit summarize --since "1 week ago"
+
+# Filter by author
+ollamacommit summarize --author "john@example.com"
+
+# Summarize specific branch
+ollamacommit summarize --branch feature/new-auth
+```
+
+**Options:**
+- `--since`: Commits since date/commit (e.g., "1 week ago", commit hash)
+- `--author`: Filter by author
+- `--branch`: Summarize specific branch
+- `--format`: Output format (summary, changelog, release-notes)
+
+### `validate` - Commit Message Validation
+
+Check commit messages against formatting conventions.
+
+```bash
+# Validate last 10 commits
+ollamacommit validate
+
+# Validate against Conventional Commits
+ollamacommit validate --conventional
+
+# Suggest fixes for invalid messages
+ollamacommit validate --conventional --fix
+
+# Validate specific commit range
+ollamacommit validate --range HEAD~5..HEAD
+```
+
+**Options:**
+- `--range`: Validate specific commit range
+- `--fix`: Suggest improved messages for invalid commits
+- `--conventional`: Validate against Conventional Commits format
+
+### `interactive-add` - AI-Assisted Staging
+
+Get AI recommendations for staging changes.
+
+```bash
+# Launch interactive staging with AI analysis
+ollamacommit interactive-add
+```
+
+The tool will:
+1. Analyze each file's changes
+2. Provide AI recommendations
+3. Ask whether to stage each change
+4. Show diffs when requested
+
+### `install-hook` - Pre-commit Integration
+
+Install Git hooks for automatic validation and message generation.
+
+```bash
+# Install pre-commit hook
+ollamacommit install-hook
+
+# Remove pre-commit hook
+ollamacommit install-hook --uninstall
+```
+
+The hook will:
+- Validate commit messages before commits
+- Offer to generate messages if validation fails
+- Support Conventional Commits validation
+
+### `setup` & `status` - Configuration
+
+Manage AI provider configuration.
+
+```bash
+# Interactive provider setup
+ollamacommit setup
+
+# Setup specific provider
+ollamacommit setup ollama
+
+# Check configuration status
+ollamacommit status
+```
+
+## 💡 Usage Examples
+
+### Real-World Scenarios
+
+#### 🔧 **Feature Development Workflow**
+
+```bash
+# 1. Start working on a new feature
+vim src/auth.py
+vim src/login.html
+vim tests/test_auth.py
+
+# 2. Check what you've changed
+ollamacommit explain
+# Output: This adds user authentication functionality with login form and tests
+
+# 3. Interactively stage changes with AI recommendations
+ollamacommit interactive-add
+# AI will analyze each file and recommend whether to stage it
+
+# 4. Generate a conventional commit
+ollamacommit commit --conventional
+# Output: feat(auth): add user login functionality with form validation
+
+# 5. Get branch name for next feature
+ollamacommit branch-suggest --create
+# Creates and switches to: feat/password-reset
+```
+
+#### 🐛 **Bug Fix Workflow**
+
+```bash
+# 1. Fix a bug in existing code
+vim src/api.py  # Fix timeout issue
+
+# 2. Stage the fix
+git add src/api.py
+
+# 3. Generate commit with higher creativity for better description
+ollamacommit commit --temperature 1.2
+# Output: Fix API timeout issue by increasing request timeout from 5s to 30s
+
+# 4. Validate the commit message format
+ollamacommit validate --conventional --range HEAD~1..HEAD
+# Ensures your commit follows standards
+```
+
+#### 📋 **Code Review Preparation**
+
+```bash
+# 1. Explain all changes for reviewers
+ollamacommit explain
+# Get plain English explanation of your work
+
+# 2. Summarize your feature branch
+ollamacommit summarize --branch feature/user-profiles
+# Generate overview of all commits in the branch
+
+# 3. Validate all commit messages in the branch
+ollamacommit validate --conventional --fix --range main..HEAD
+# Check and get suggestions for improving commit messages
+```
+
+#### 🚀 **Release Preparation**
+
+```bash
+# 1. Generate changelog since last release
+ollamacommit summarize --format changelog --since "v1.2.0"
+
+# 2. Create release notes
+ollamacommit summarize --format release-notes --since "v1.2.0"
+
+# 3. Validate all commits since last release
+ollamacommit validate --conventional --range v1.2.0..HEAD
+
+# 4. Install pre-commit hook for future quality
+ollamacommit install-hook
+```
+
+#### 🔍 **Understanding Legacy Code**
+
+```bash
+# 1. Understand changes in specific files
+ollamacommit explain --file src/legacy_module.py
+
+# 2. Get summary of recent activity by specific author
+ollamacommit summarize --author "senior.dev@company.com" --since "1 month ago"
+
+# 3. Analyze commit patterns
+ollamacommit validate --range HEAD~50..HEAD
+```
+
+### Advanced Usage Patterns
+
+#### **Multi-file Analysis**
+```bash
+# Stage related files and get comprehensive explanation
+git add src/models/ src/views/ src/templates/
+ollamacommit explain --staged
+# AI explains how all the changes work together
+```
+
+#### **Branch Management**
+```bash
+# Get branch suggestions from any commit
+ollamacommit branch-suggest --from-commit abc123
+
+# Create feature branches with AI-suggested names
+git stash  # Save current work
+ollamacommit branch-suggest --create
+git stash pop  # Resume work on new branch
+```
+
+#### **Commit Message Refinement**
+```bash
+# Generate conventional commits with different creativity levels
+ollamacommit commit --conventional --temperature 0.2  # Conservative
+ollamacommit commit --conventional --temperature 1.5  # Creative
+
+# Auto-commit for small changes
+ollamacommit commit --auto --conventional
+```
+
+#### **Team Collaboration**
+```bash
+# Summarize team activity
+ollamacommit summarize --since "1 week ago" --format summary
+
+# Validate team's commit quality
+ollamacommit validate --conventional --range origin/main..HEAD
+```
+
+#### **Integration with Git Hooks**
+```bash
+# Install comprehensive pre-commit validation
+ollamacommit install-hook
+
+# The hook automatically:
+# - Validates commit message format
+# - Offers AI-generated messages if validation fails
+# - Ensures consistent commit quality across the team
+```
+
+### Command Combinations
+
+#### **Complete Feature Development**
+```bash
+# The full AI-assisted development cycle
+ollamacommit interactive-add          # Smart staging
+ollamacommit commit --conventional    # Structured commit
+ollamacommit validate --conventional  # Quality check
+ollamacommit branch-suggest --create  # Next feature setup
+```
+
+#### **Code Review Package**
+```bash
+# Prepare comprehensive review materials
+ollamacommit explain > CHANGES.md
+ollamacommit summarize --format changelog >> CHANGES.md
+ollamacommit validate --conventional --fix
+```
+
+#### **Release Documentation**
+```bash
+# Generate complete release documentation
+ollamacommit summarize --format release-notes --since "v1.0.0" > RELEASE_NOTES.md
+ollamacommit summarize --format changelog --since "v1.0.0" > CHANGELOG.md
+```
+
+## 🤖 Supported AI Providers
+
+| Provider | Models | API Key Required | Cost | Best For |
+|----------|--------|------------------|------|----------|
+| **OpenAI** | GPT-3.5-turbo, GPT-4, etc. | ✅ Yes | Pay per use | High quality, reliable |
+| **Google Gemini** | Gemini Pro | ✅ Yes | Free tier available | Good balance of quality/cost |
+| **Anthropic Claude** | Claude 3 Haiku, Sonnet, Opus | ✅ Yes | Pay per use | Detailed explanations |
+| **Ollama** | Llama 3.2, Code Llama, etc. | ❌ No | Free (local) | Privacy, offline use |
+
+## 📋 Example Workflows
+
+### Daily Development Workflow
+
+```bash
+# 1. Work on your feature
+vim src/feature.py
+
+# 2. Get AI explanation of changes
+ollamacommit explain
+
+# 3. Interactively stage changes with AI help
+ollamacommit interactive-add
+
+# 4. Generate and commit with AI message
+ollamacommit commit --conventional
+
+# 5. Get suggested branch name for next feature
+ollamacommit branch-suggest --create
+```
+
+### Release Preparation
+
+```bash
+# 1. Validate all commit messages
+ollamacommit validate --conventional --fix
+
+# 2. Generate changelog for release
+ollamacommit summarize --format changelog --since "v1.0.0"
+
+# 3. Create release notes
+ollamacommit summarize --format release-notes --since "v1.0.0"
+```
+
+### Code Review Preparation
+
+```bash
+# 1. Explain all changes for reviewers
+ollamacommit explain
+
+# 2. Summarize the branch's purpose
+ollamacommit summarize --branch feature/new-auth
+
+# 3. Validate commit message quality
+ollamacommit validate --conventional
+```
+
+## ⚙️ Configuration
+
+### Temperature Settings
+Control AI creativity (0.0 = deterministic, 2.0 = very creative):
+- **0.0-0.3**: Conservative, consistent messages
+- **0.5-0.7**: Balanced (default)
+- **1.0-1.5**: More creative and varied
+- **1.5-2.0**: Highly creative, potentially unexpected
+
+### Conventional Commits Support
+Full support for [Conventional Commits](https://www.conventionalcommits.org/) format:
+- `feat`: New features
+- `fix`: Bug fixes
+- `docs`: Documentation changes
+- `style`: Code style changes
+- `refactor`: Code refactoring
+- `test`: Test-related changes
+- `chore`: Maintenance tasks
+
+### Configuration File
+Settings stored in `~/.ollamacommit/config.json`:
 ```json
 {
-  "provider": "openai",
-  "api_keys": {
-    "openai": "sk-...",
-    "gemini": "AIza...",
-    "claude": "sk-ant-..."
-  },
+  "provider": "ollama",
+  "api_keys": {},
   "settings": {
     "temperature": 0.7,
     "max_tokens": 150,
     "model": {
-      "openai": "gpt-3.5-turbo",
-      "gemini": "gemini-pro",
-      "claude": "claude-3-haiku-20240307",
       "ollama": "llama3.2"
     }
   }
 }
 ```
 
-## Model Options
+## 💡 Best Practices & Tips
 
-### OpenAI Models
-- `gpt-3.5-turbo` (default, fast and cost-effective)
-- `gpt-4` (more capable, higher cost)
-- `gpt-4-turbo` (latest GPT-4 with better performance)
+### Workflow Integration
 
-### Gemini Models
-- `gemini-pro` (default, balanced performance)
-- `gemini-pro-vision` (supports images)
+#### **Daily Development Routine**
+1. **Morning Setup**: `ollamacommit status` - Check your AI provider is ready
+2. **Feature Work**: Use `ollamacommit explain` to understand changes before committing
+3. **Smart Staging**: `ollamacommit interactive-add` for complex changes
+4. **Quality Commits**: Always use `--conventional` flag for team projects
+5. **Branch Management**: `ollamacommit branch-suggest --create` for new features
 
-### Claude Models
-- `claude-3-haiku-20240307` (default, fast and economical)
-- `claude-3-sonnet-20240229` (balanced performance)
-- `claude-3-opus-20240229` (most capable)
+#### **Team Best Practices**
+```bash
+# Setup pre-commit hooks for the entire team
+ollamacommit install-hook
 
-### Ollama Models
-- `llama3.2` (default, general purpose)
-- `codellama` (optimized for code)
-- `mistral` (efficient alternative)
-- Any model available in Ollama
+# Establish commit standards
+ollamacommit validate --conventional --fix
 
-## Troubleshooting
+# Regular commit quality audits
+ollamacommit validate --range origin/main..HEAD --conventional
+```
+
+#### **Effective Prompt Usage**
+- **High Temperature (1.2-1.8)**: Creative branch names, detailed explanations
+- **Low Temperature (0.2-0.5)**: Consistent commit messages, formal documentation
+- **Medium Temperature (0.7-1.0)**: Balanced approach for daily use
+
+#### **Command Chaining for Efficiency**
+```bash
+# Complete feature workflow in one go
+ollamacommit interactive-add && \
+ollamacommit commit --conventional && \
+ollamacommit branch-suggest --create
+
+# Release preparation pipeline
+ollamacommit validate --conventional --fix && \
+ollamacommit summarize --format changelog > CHANGELOG.md && \
+ollamacommit summarize --format release-notes > RELEASE.md
+```
+
+### Performance Tips
+
+#### **Optimize for Large Repositories**
+```bash
+# Focus on recent changes only
+ollamacommit summarize --since "1 week ago"
+
+# Validate recent commits instead of entire history
+ollamacommit validate --range HEAD~20..HEAD
+
+# Explain specific files instead of entire diff
+ollamacommit explain --file src/main.py
+```
+
+#### **Provider Selection by Use Case**
+- **OpenAI GPT-4**: Complex code analysis, detailed explanations
+- **Gemini Pro**: Balanced performance for daily commits
+- **Claude**: Excellent for documentation and release notes
+- **Ollama**: Fast local processing, privacy-sensitive projects
+
+### Integration Examples
+
+#### **VS Code Integration**
+Add to your VS Code tasks.json:
+```json
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "AI Commit",
+      "type": "shell",
+      "command": "ollamacommit commit --conventional",
+      "group": "build"
+    },
+    {
+      "label": "Explain Changes",
+      "type": "shell", 
+      "command": "ollamacommit explain --staged",
+      "group": "build"
+    }
+  ]
+}
+```
+
+#### **Git Aliases**
+```bash
+# Add to ~/.gitconfig
+[alias]
+  ai-commit = !ollamacommit commit --conventional
+  ai-explain = !ollamacommit explain
+  ai-branch = !ollamacommit branch-suggest --create
+  ai-validate = !ollamacommit validate --conventional
+```
+
+#### **Shell Aliases**
+```bash
+# Add to ~/.bashrc or ~/.zshrc
+alias aic='ollamacommit commit --conventional'
+alias aie='ollamacommit explain'
+alias aib='ollamacommit branch-suggest'
+alias ais='ollamacommit summarize'
+alias aiv='ollamacommit validate --conventional'
+```
+
+## 🔧 Troubleshooting
 
 ### Common Issues
 
-**"No provider configured"**
+**Provider not configured:**
 ```bash
-./bin/ollamacommit --setup
+ollamacommit setup
 ```
 
-**API key errors**
-- Verify your API key is correct
-- Check your account has sufficient credits/quota
-- Reconfigure: `./bin/ollamacommit --setup [provider]`
-
-**Ollama connection failed**
+**Ollama connection issues:**
 ```bash
-# Ensure Ollama is running
+# Check if Ollama is running
+curl http://localhost:11434/api/tags
+
+# Start Ollama if needed
 ollama serve
-
-# Verify model is available
-ollama list
-
-# Pull model if needed
-ollama pull llama3.2
 ```
 
-**No staged changes**
+**Git repository not found:**
 ```bash
-git add .  # Stage your changes first
+# Ensure you're in a Git repository
+git init
 ```
 
-### Error Messages
-
-- **OpenAI API error**: Check API key and quota
-- **Gemini API error**: Verify API key and request limits
-- **Claude API error**: Confirm API key and usage limits
-- **Ollama error**: Ensure service is running locally
-
-## Uninstallation
-
+**No staged changes:**
 ```bash
-./uninstall.sh
+# Stage your changes first
+git add .
+ollamacommit commit
 ```
 
-This script will:
-- Remove the virtual environment
-- Optionally remove downloaded models (Ollama)
-- Optionally remove the AI provider applications
+**Command not found after installation:**
+```bash
+# Make sure you're in the project directory and use full path
+./bin/ollamacommit status
 
-Configuration files in `~/.ollamacommit/` can be manually deleted.
+# Or add to PATH
+export PATH=$PATH:$(pwd)/bin
+```
 
-## Security
+**Slow AI responses:**
+```bash
+# Switch to faster model
+ollamacommit setup  # Choose lighter model
 
-- API keys are stored locally in `~/.ollamacommit/config.json`
-- File permissions are set to user-only access (600)
-- No data is transmitted except to your chosen AI provider
-- For Ollama, everything runs locally with no external API calls
+# Use Ollama for fastest local processing
+ollamacommit setup ollama
+```
 
-## Contributing
+### Debug Mode
+For detailed error information, check the configuration and status:
+```bash
+ollamacommit status
+```
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+### Getting Help
+```bash
+# General help
+ollamacommit --help
 
-## License
+# Command-specific help
+ollamacommit commit --help
+ollamacommit summarize --help
+ollamacommit validate --help
+```
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+## 🧩 Advanced Usage
 
-## Changelog
+### Custom Prompts
+The tool supports different prompt styles for different use cases:
+- **Standard commits**: Clear, concise messages
+- **Conventional commits**: Structured with type prefixes
+- **Branch naming**: Short, semantic names
+- **Explanations**: Detailed, educational descriptions
 
-### v2.0.0 - Multi-Provider Support
-- Added support for OpenAI, Google Gemini, and Anthropic Claude
-- Implemented secure API key management
-- Added interactive provider setup
-- Made Ollama optional instead of required
-- Improved error handling and user experience
+### Batch Operations
+Process multiple files or commits efficiently:
+```bash
+# Validate entire project history
+ollamacommit validate --range HEAD~100..HEAD --conventional
 
-### v1.0.0 - Initial Release
-- Basic Ollama integration
-- Simple commit message generation
+# Explain changes across multiple files
+ollamacommit explain --staged
+```
+
+### Integration with Git Workflows
+- **Pre-commit hooks**: Automatic validation
+- **CI/CD integration**: Validate PR commit messages
+- **Release automation**: Generate changelogs automatically
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [Ollama](https://ollama.com) for local AI model support
+- [OpenAI](https://openai.com) for GPT models
+- [Anthropic](https://anthropic.com) for Claude models
+- [Google](https://ai.google.dev) for Gemini models
+- [Conventional Commits](https://conventionalcommits.org) for commit standards
+
+---
+
+**Made with ❤️ for developers who want smarter Git workflows**
 

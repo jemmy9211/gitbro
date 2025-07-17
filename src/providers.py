@@ -13,6 +13,7 @@ class BaseProvider(ABC):
         self.api_key = api_key
         self.model = model
         self.temperature = temperature
+        self._system_prompt_override = None
     
     @abstractmethod
     def generate_message(self, diff: str) -> str:
@@ -21,6 +22,9 @@ class BaseProvider(ABC):
     
     def _get_system_prompt(self) -> str:
         """Get the system prompt for commit message generation."""
+        if self._system_prompt_override:
+            return self._system_prompt_override
+        
         return (
             "Your task is to write a Git commit message based on the provided code diff. "
             "The message should follow standard conventions:\n"
