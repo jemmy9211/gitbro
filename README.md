@@ -1,5 +1,5 @@
-# 🧠 AI-Powered Git CLI Tool (gitbro v2.0)
-
+# 🧠 AI-Powered Git CLI Tool (gitbro v2.0)  
+![GitHub stars](https://img.shields.io/github/stars/jemmy9211/gitbro)   
 A comprehensive AI-assisted Git CLI tool that enhances developer workflow through smart commit handling, diff summarization, branch naming, validation, and more. Choose from OpenAI GPT models, Google Gemini, Anthropic Claude, or local Ollama models.
 
 ## 🚀 New in v2.0
@@ -777,10 +777,6 @@ gitbro explain --staged
 - **Pre-commit hooks**: Automatic validation
 - **CI/CD integration**: Validate PR commit messages
 - **Release automation**: Generate changelogs automatically
-
-
-## Star
-![GitHub stars](https://img.shields.io/github/stars/jemmy9211/gitbro)
 
 ## 🤝 Contributing
 
