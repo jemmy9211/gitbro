@@ -1,8 +1,8 @@
-# 🧠 AI-Powered Git CLI Tool (gitbro v2.0)  
+# AI-Powered Git CLI Tool (gitbro v2.0)  
 ![GitHub stars](https://img.shields.io/github/stars/jemmy9211/gitbro)   
 A comprehensive AI-assisted Git CLI tool that enhances developer workflow through smart commit handling, diff summarization, branch naming, validation, and more. Choose from OpenAI GPT models, Google Gemini, Anthropic Claude, or local Ollama models.
 
-## 🚀 New in v2.0
+## New in v2.0
 
 - **Multiple Subcommands**: 8 powerful AI-assisted Git workflow commands
 - **Semantic Branch Naming**: AI-generated branch names based on changes
@@ -13,7 +13,7 @@ A comprehensive AI-assisted Git CLI tool that enhances developer workflow throug
 - **Pre-commit Hooks**: Automated validation and message generation
 - **Enhanced CLI**: Built with Click for better user experience
 
-## 🧰 Features & Commands
+## Features & Commands
 
 ### Core Features
 
@@ -39,7 +39,7 @@ A comprehensive AI-assisted Git CLI tool that enhances developer workflow throug
 | `setup` | Configure AI providers | `gitbro setup ollama` |
 | `status` | Show configuration status | `gitbro status` |
 
-## 📦 Installation
+## Installation
 
 1. **Clone the Repository:**
    ```bash
@@ -68,7 +68,7 @@ A comprehensive AI-assisted Git CLI tool that enhances developer workflow throug
    gitbro setup ollama    # For Ollama (local)
    ```
 
-## 🎯 Quick Start Guide
+## Quick Start Guide
 
 ### Getting Started with New Features
 
@@ -102,7 +102,7 @@ A comprehensive AI-assisted Git CLI tool that enhances developer workflow throug
    # Output: Suggested branch name: feat/add-hello-script
    ```
 
-## 🛠️ Command Reference
+## 🛠Command Reference
 
 ### `commit` - AI-Powered Commit Messages
 
@@ -299,7 +299,7 @@ gitbro setup ollama
 gitbro status
 ```
 
-## 💡 Usage Examples
+## Usage Examples
 
 ### Real-World Scenarios
 
@@ -328,7 +328,7 @@ gitbro branch-suggest --create
 # Creates and switches to: feat/password-reset
 ```
 
-#### 🐛 **Bug Fix Workflow**
+#### **Bug Fix Workflow**
 
 ```bash
 # 1. Fix a bug in existing code
@@ -346,7 +346,7 @@ gitbro validate --conventional --range HEAD~1..HEAD
 # Ensures your commit follows standards
 ```
 
-#### 📋 **Code Review Preparation**
+#### **Code Review Preparation**
 
 ```bash
 # 1. Explain all changes for reviewers
@@ -362,7 +362,7 @@ gitbro validate --conventional --fix --range main..HEAD
 # Check and get suggestions for improving commit messages
 ```
 
-#### 🚀 **Release Preparation**
+#### **Release Preparation**
 
 ```bash
 # 1. Generate changelog since last release
@@ -474,7 +474,7 @@ gitbro summarize --format release-notes --since "v1.0.0" > RELEASE_NOTES.md
 gitbro summarize --format changelog --since "v1.0.0" > CHANGELOG.md
 ```
 
-## 🤖 Supported AI Providers
+## Supported AI Providers
 
 | Provider | Models | API Key Required | Cost | Best For |
 |----------|--------|------------------|------|----------|
@@ -483,7 +483,7 @@ gitbro summarize --format changelog --since "v1.0.0" > CHANGELOG.md
 | **Anthropic Claude** | Claude 3 Haiku, Sonnet, Opus | ✅ Yes | Pay per use | Detailed explanations |
 | **Ollama** | Llama 3.2, Code Llama, etc. | ❌ No | Free (local) | Privacy, offline use |
 
-## 📋 Example Workflows
+## Example Workflows
 
 ### Daily Development Workflow
 
@@ -546,7 +546,7 @@ gitbro clean-branches --generate-alias
 gitbro clean-branches --dry-run --remote
 ```
 
-## ⚙️ Configuration
+## Configuration
 
 ### Temperature Settings
 Control AI creativity (0.0 = deterministic, 2.0 = very creative):
@@ -581,7 +581,7 @@ Settings stored in `~/.gitbro/config.json`:
 }
 ```
 
-## 💡 Best Practices & Tips
+## Best Practices & Tips
 
 ### Workflow Integration
 
@@ -778,15 +778,15 @@ gitbro explain --staged
 - **CI/CD integration**: Validate PR commit messages
 - **Release automation**: Generate changelogs automatically
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
 
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [Ollama](https://ollama.com) for local AI model support
 - [OpenAI](https://openai.com) for GPT models
