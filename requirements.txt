@@ -1,8 +1,5 @@
-requests
-langchain
-langchain_ollama
-openai>=1.0.0
-anthropic
-google-generativeai
 click>=8.0.0
 gitpython>=3.1.0
+openai>=1.0.0
+google-generativeai
+requests

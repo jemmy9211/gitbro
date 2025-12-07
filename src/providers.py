@@ -1,190 +1,146 @@
-from openai import OpenAI
-import requests
-import google.generativeai as genai
+"""AI Providers for commit message generation."""
+
 from abc import ABC, abstractmethod
 from typing import Optional
-from langchain_ollama import OllamaLLM
-from config import config
+import requests
+
+from openai import OpenAI
+import google.generativeai as genai
+
+from .config import config
+
 
 class BaseProvider(ABC):
     """Base class for AI providers."""
-    
-    def __init__(self, api_key: Optional[str] = None, model: Optional[str] = None, temperature: float = 0.7):
-        self.api_key = api_key
+
+    def __init__(self, model: str, temperature: float = 0.7):
         self.model = model
         self.temperature = temperature
-        self._system_prompt_override = None
-    
+
     @abstractmethod
-    def generate_message(self, diff: str) -> str:
-        """Generate a commit message from a git diff."""
+    def generate(self, prompt: str, system_prompt: str = None) -> str:
+        """Generate response from the AI provider."""
         pass
-    
-    def _get_system_prompt(self) -> str:
-        """Get the system prompt for commit message generation."""
-        if self._system_prompt_override:
-            return self._system_prompt_override
-        
+
+    def _default_system_prompt(self) -> str:
         return (
-            "Your task is to write a Git commit message based on the provided code diff. "
-            "The message should follow standard conventions:\n"
-            "- Start with a short imperative subject line (e.g., 'Fix bug', 'Add feature').\n"
-            "- The subject line should be 50 characters or less if possible.\n"
-            "- Optionally, provide a more detailed explanatory text after the subject line, separated by a blank line.\n"
-            "- Your output should *only* be the commit message content, with no other surrounding text, titles, or explanations."
+            "Write a Git commit message for this diff. "
+            "Use imperative mood, keep subject ≤50 chars. "
+            "Output only the commit message."
         )
 
+
 class OpenAIProvider(BaseProvider):
-    """OpenAI provider for GPT models."""
-    
+    """OpenAI GPT provider."""
+
     def __init__(self, api_key: str, model: str = "gpt-3.5-turbo", temperature: float = 0.7):
-        super().__init__(api_key, model, temperature)
-        self.client = OpenAI(api_key=self.api_key)
-    
-    def generate_message(self, diff: str) -> str:
-        """Generate commit message using OpenAI API."""
-        try:
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=[
-                    {"role": "system", "content": self._get_system_prompt()},
-                    {"role": "user", "content": f"Code Diff: {diff}\n\nCommit Message:"}
-                ],
-                temperature=self.temperature,
-                max_tokens=150
-            )
-            return response.choices[0].message.content.strip()
-        except Exception as e:
-            raise Exception(f"OpenAI API error: {str(e)}")
+        super().__init__(model, temperature)
+        self.client = OpenAI(api_key=api_key)
+
+    def generate(self, prompt: str, system_prompt: str = None) -> str:
+        response = self.client.chat.completions.create(
+            model=self.model,
+            messages=[
+                {"role": "system", "content": system_prompt or self._default_system_prompt()},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=self.temperature,
+            max_tokens=200
+        )
+        return response.choices[0].message.content.strip()
+
 
 class GeminiProvider(BaseProvider):
     """Google Gemini provider."""
-    
+
     def __init__(self, api_key: str, model: str = "gemini-pro", temperature: float = 0.7):
-        super().__init__(api_key, model, temperature)
-        genai.configure(api_key=self.api_key)
-        self.client = genai.GenerativeModel(self.model)
-    
-    def generate_message(self, diff: str) -> str:
-        """Generate commit message using Gemini API."""
-        try:
-            prompt = f"{self._get_system_prompt()}\n\nCode Diff: {diff}\n\nCommit Message:"
-            
-            generation_config = genai.types.GenerationConfig(
+        super().__init__(model, temperature)
+        genai.configure(api_key=api_key)
+        self.client = genai.GenerativeModel(model)
+
+    def generate(self, prompt: str, system_prompt: str = None) -> str:
+        full_prompt = f"{system_prompt or self._default_system_prompt()}\n\n{prompt}"
+        response = self.client.generate_content(
+            full_prompt,
+            generation_config=genai.types.GenerationConfig(
                 temperature=self.temperature,
-                max_output_tokens=150,
+                max_output_tokens=200
             )
-            
-            response = self.client.generate_content(
-                prompt,
-                generation_config=generation_config
-            )
-            
-            if not response.text:
-                raise Exception("No response generated")
-            
-            return response.text.strip()
-        except Exception as e:
-            raise Exception(f"Gemini API error: {str(e)}")
+        )
+        return response.text.strip()
+
 
 class ClaudeProvider(BaseProvider):
     """Anthropic Claude provider."""
-    
+
+    API_URL = "https://api.anthropic.com/v1/messages"
+
     def __init__(self, api_key: str, model: str = "claude-3-haiku-20240307", temperature: float = 0.7):
-        super().__init__(api_key, model, temperature)
-        self.base_url = "https://api.anthropic.com/v1/messages"
-    
-    def generate_message(self, diff: str) -> str:
-        """Generate commit message using Claude API."""
-        try:
-            headers = {
+        super().__init__(model, temperature)
+        self.api_key = api_key
+
+    def generate(self, prompt: str, system_prompt: str = None) -> str:
+        response = requests.post(
+            self.API_URL,
+            headers={
                 "Content-Type": "application/json",
                 "x-api-key": self.api_key,
                 "anthropic-version": "2023-06-01"
-            }
-            
-            data = {
+            },
+            json={
                 "model": self.model,
-                "max_tokens": 150,
+                "max_tokens": 200,
                 "temperature": self.temperature,
-                "system": self._get_system_prompt(),
-                "messages": [
-                    {
-                        "role": "user", 
-                        "content": f"Code Diff: {diff}\n\nCommit Message:"
-                    }
-                ]
+                "system": system_prompt or self._default_system_prompt(),
+                "messages": [{"role": "user", "content": prompt}]
             }
-            
-            response = requests.post(self.base_url, headers=headers, json=data)
-            
-            if response.status_code != 200:
-                raise Exception(f"HTTP {response.status_code}: {response.text}")
-            
-            result = response.json()
-            if "content" not in result or not result["content"]:
-                raise Exception("No response generated")
-            
-            return result["content"][0]["text"].strip()
-        except Exception as e:
-            raise Exception(f"Claude API error: {str(e)}")
+        )
+        response.raise_for_status()
+        return response.json()["content"][0]["text"].strip()
+
 
 class OllamaProvider(BaseProvider):
-    """Ollama provider for local models."""
-    
+    """Ollama local model provider (no langchain dependency)."""
+
     def __init__(self, model: str = "llama3.2", temperature: float = 0.7, base_url: str = "http://localhost:11434"):
-        super().__init__(None, model, temperature)
+        super().__init__(model, temperature)
         self.base_url = base_url
-    
-    def generate_message(self, diff: str) -> str:
-        """Generate commit message using Ollama."""
-        try:
-            llm = OllamaLLM(
-                model=self.model,
-                base_url=self.base_url,
-                temperature=self.temperature
-            )
-            
-            prompt = f"{self._get_system_prompt()}\n\nCode Diff: {diff}\n\nCommit Message:"
-            response = llm.invoke(prompt)
-            
-            if hasattr(response, 'content'):
-                return str(response.content).strip()
-            return str(response).strip()
-        except Exception as e:
-            raise Exception(f"Ollama error: {str(e)}")
+
+    def generate(self, prompt: str, system_prompt: str = None) -> str:
+        full_prompt = f"{system_prompt or self._default_system_prompt()}\n\n{prompt}"
+        response = requests.post(
+            f"{self.base_url}/api/generate",
+            json={
+                "model": self.model,
+                "prompt": full_prompt,
+                "stream": False,
+                "options": {"temperature": self.temperature}
+            }
+        )
+        response.raise_for_status()
+        return response.json()["response"].strip()
+
 
 def get_provider(provider_name: str = None) -> BaseProvider:
-    """Get a provider instance based on configuration."""
-    if provider_name is None:
-        provider_name = config.get_provider()
-    
-    if not provider_name:
-        raise Exception("No provider configured. Please run with --setup first.")
-    
-    model = config.get_model(provider_name)
-    temperature = config.get_temperature()
-    
-    if provider_name == "openai":
-        api_key = config.get_api_key("openai")
-        if not api_key:
-            raise Exception("OpenAI API key not configured. Please run with --setup.")
-        return OpenAIProvider(api_key, model, temperature)
-    
-    elif provider_name == "gemini":
-        api_key = config.get_api_key("gemini")
-        if not api_key:
-            raise Exception("Gemini API key not configured. Please run with --setup.")
-        return GeminiProvider(api_key, model, temperature)
-    
-    elif provider_name == "claude":
-        api_key = config.get_api_key("claude")
-        if not api_key:
-            raise Exception("Claude API key not configured. Please run with --setup.")
-        return ClaudeProvider(api_key, model, temperature)
-    
-    elif provider_name == "ollama":
-        return OllamaProvider(model, temperature)
-    
-    else:
-        raise Exception(f"Unknown provider: {provider_name}") 
+    """Factory function to get configured provider instance."""
+    name = provider_name or config.get_provider()
+    if not name:
+        raise RuntimeError("No provider configured. Run 'gitbro setup' first.")
+
+    model = config.get_model(name)
+    temp = config.get_temperature()
+
+    providers = {
+        "openai": lambda: OpenAIProvider(config.get_api_key("openai"), model, temp),
+        "gemini": lambda: GeminiProvider(config.get_api_key("gemini"), model, temp),
+        "claude": lambda: ClaudeProvider(config.get_api_key("claude"), model, temp),
+        "ollama": lambda: OllamaProvider(model, temp),
+    }
+
+    if name not in providers:
+        raise ValueError(f"Unknown provider: {name}")
+
+    if name != "ollama" and not config.get_api_key(name):
+        raise RuntimeError(f"{name.upper()} API key not configured. Run 'gitbro setup {name}'.")
+
+    return providers[name]()

@@ -1,36 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# gitbro - AI-Powered Git CLI Tool
 
-command_exists() {
-    command -v "$1" &> /dev/null
-}
+set -e
 
-SCRIPT_PATH=$(realpath "$0")
-PROJECT_ROOT=$(dirname $(dirname "$SCRIPT_PATH"))
+SCRIPT_PATH=$(realpath "$0" 2>/dev/null || readlink -f "$0" 2>/dev/null || echo "$0")
+PROJECT_ROOT=$(dirname "$(dirname "$SCRIPT_PATH")")
 VENV_PATH="$PROJECT_ROOT/venv"
 
-if [ ! -d "$VENV_PATH" ]; then
-    echo "Virtual environment not found at $VENV_PATH. Please run ./install.sh from the project root."
-    exit 1
+# Activate virtual environment if exists
+if [ -d "$VENV_PATH" ]; then
+    source "$VENV_PATH/bin/activate"
 fi
 
-source "$VENV_PATH/bin/activate"
-
-if ! command_exists python3; then
-    echo "Python3 not found in the virtual environment. Please ensure the setup is correct."
-    deactivate
-    exit 1
-fi
-
-# Check if this is an old-style call (for backward compatibility)
-if [[ "$1" == "--setup" ]] || [[ "$1" == "--status" ]] || [[ "$1" == "--provider" ]]; then
-    python3 "$PROJECT_ROOT/src/generate_message.py" "$@"
-    exit_code=$?
-    deactivate
-    exit $exit_code
-fi
-
-# Run the new CLI with all arguments
+# Run the CLI
 python3 "$PROJECT_ROOT/src/cli.py" "$@"
-exit_code=$?
-deactivate
-exit $exit_code
