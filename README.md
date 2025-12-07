@@ -86,6 +86,7 @@ gitbro g -p 9000            # Use port 9000
 ```
 
 ## Configuration
+## Configuration
 
 Config stored at `~/.gitbro/config.json`:
 
