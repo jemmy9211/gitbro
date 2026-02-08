@@ -16,11 +16,43 @@ pip install -e .
 ./install.sh
 ```
 
+## 🚀 Quick Start — Interactive Mode (Recommended)
+
+Just run `gitbro` without any arguments:
+
+```bash
+gitbro
+```
+
+This opens a **interactive menu** where you can:
+
+```
+┌──────────────────────────────────────────┐
+│ 🧠 gitbro — AI-Powered Git Tool         │
+└──────────────────────────────────────────┘
+
+  What would you like to do?
+
+  1. ⚡ Quick Commit       — stage all + AI message + commit
+  2. 📝 Commit Message     — AI commit message for staged changes
+  3. 🌿 Branch Name        — AI branch name from changes
+  4. 📖 Explain Changes    — plain English explanation of diffs
+  5. 📊 Summarize History  — changelog / release notes
+  6. ✅ Validate Commits   — check commit message formats
+  7. 📁 AI-Assisted Stage  — review & stage files with AI
+  8. 🔀 Git Graph          — visual graph in browser
+  9. 🧹 Clean Branches     — delete merged branches
+  10. ⚙️  Settings          — provider, model, temperature
+```
+
+No need to remember any commands! Just pick a number.
+
 ## Setup
 
 ```bash
-gitbro setup          # Interactive provider selection
-gitbro setup ollama   # Direct setup (openai/gemini/claude/ollama)
+gitbro              # Interactive mode will guide you through setup
+gitbro setup        # Or run setup directly
+gitbro setup ollama # Direct setup (openai/gemini/claude/ollama)
 ```
 
 **Supported Providers:**
@@ -31,10 +63,13 @@ gitbro setup ollama   # Direct setup (openai/gemini/claude/ollama)
 | Claude | [Get key](https://console.anthropic.com/account/keys) | Pay per use |
 | Ollama | Not needed | Free (local) |
 
-## Commands
+## CLI Commands (Advanced)
+
+All features are also available as direct commands for scripting/automation:
 
 | Command | Alias | Description |
 |---------|-------|-------------|
+| `gitbro` | | **Interactive menu** (recommended) |
 | `gitbro commit` | `c` | Generate AI commit message |
 | `gitbro branch` | `b` | Suggest branch name |
 | `gitbro explain` | `e` | Explain code changes |
@@ -46,7 +81,7 @@ gitbro setup ollama   # Direct setup (openai/gemini/claude/ollama)
 | `gitbro hook` | - | Install pre-commit hook |
 | `gitbro status` | - | Show config |
 
-## Quick Examples
+## CLI Examples
 
 ```bash
 # Generate commit message
@@ -85,7 +120,6 @@ gitbro g -n 200             # Show 200 commits
 gitbro g -p 9000            # Use port 9000
 ```
 
-## Configuration
 ## Configuration
 
 Config stored at `~/.gitbro/config.json`:

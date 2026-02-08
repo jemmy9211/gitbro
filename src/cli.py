@@ -469,7 +469,7 @@ fi
 # ============================================================================
 
 class AliasedGroup(click.Group):
-    """Support command aliases."""
+    """Support command aliases. Launch TUI when no command given."""
 
     def get_command(self, ctx, cmd_name):
         # Try exact match first
@@ -492,11 +492,20 @@ class AliasedGroup(click.Group):
 
         return None
 
+    def invoke(self, ctx):
+        """If no subcommand given, launch TUI."""
+        if not ctx.invoked_subcommand:
+            from .tui import run_tui
+            run_tui()
+        else:
+            super().invoke(ctx)
+
 
 # Replace the default group with aliased version
 cli = AliasedGroup(
     name="gitbro",
-    help="🧠 AI-Powered Git CLI Tool",
+    help="🧠 AI-Powered Git CLI Tool\n\nRun without arguments for interactive mode.",
+    invoke_without_command=True,
     commands={
         "commit": commit,
         "branch": branch_suggest,

@@ -3,3 +3,4 @@ gitpython>=3.1.0
 openai>=1.0.0
 google-generativeai
 requests
+rich>=13.0.0
