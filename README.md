@@ -1,6 +1,6 @@
 # 🧠 gitbro
 
-AI-powered Git CLI tool. Generate commit messages, branch names, changelogs, and more.
+AI-powered Git CLI tool with a full interactive TUI. Manage your entire Git workflow — staging, committing, pushing, branching, stashing, and more — all enhanced with AI.
 
 [![GitHub stars](https://img.shields.io/github/stars/jemmy9211/gitbro)](https://github.com/jemmy9211/gitbro)
 
@@ -16,7 +16,9 @@ pip install -e .
 ./install.sh
 ```
 
-## 🚀 Quick Start — Interactive Mode (Recommended)
+**Dependencies:** click, gitpython, openai, google-generativeai, requests, rich
+
+## 🚀 Quick Start — Interactive TUI (Recommended)
 
 Just run `gitbro` without any arguments:
 
@@ -24,34 +26,46 @@ Just run `gitbro` without any arguments:
 gitbro
 ```
 
-This opens a **interactive menu** where you can:
+This launches an interactive **Rich-powered TUI** with a grid menu organized by workflow phase:
 
 ```
-┌──────────────────────────────────────────┐
-│ 🧠 gitbro — AI-Powered Git Tool         │
-└──────────────────────────────────────────┘
+┌─────────────────────────────────────────┐
+│ gitbro  AI-Powered Git Tool             │
+└─────────────────────────────────────────┘
 
-  What would you like to do?
+  -- workflow --
+   1 status        2 diff          3 add           4 commit        5 push
 
-  1. ⚡ Quick Commit       — stage all + AI message + commit
-  2. 📝 Commit Message     — AI commit message for staged changes
-  3. 🌿 Branch Name        — AI branch name from changes
-  4. 📖 Explain Changes    — plain English explanation of diffs
-  5. 📊 Summarize History  — changelog / release notes
-  6. ✅ Validate Commits   — check commit message formats
-  7. 📁 AI-Assisted Stage  — review & stage files with AI
-  8. 🔀 Git Graph          — visual graph in browser
-  9. 🧹 Clean Branches     — delete merged branches
-  10. ⚙️  Settings          — provider, model, temperature
+  -- more git --
+   6 pull          7 unstage       8 amend         9 stash        10 discard
+  11 remove       12 branches     13 log
+
+  -- ai --
+  14 quick commit  15 ai explain  16 ai summarize 17 ai stage    18 validate
+
+  -- tools --
+  19 graph         20 clean       21 settings
+
+   0 exit
 ```
 
-No need to remember any commands! Just pick a number.
+No commands to remember — just pick a number!
+
+### TUI Features at a Glance
+
+| Section | Features |
+|---------|----------|
+| **Workflow** | Status overview · View diff (working/staged/last commit) · Stage files (all/pick/pattern) · AI commit message (standard or conventional) · Push (with auto-upstream and force-with-lease) |
+| **More Git** | Pull (merge/rebase/fetch) · Unstage · Amend last commit · Stash (push/pop/apply/drop/with message) · Discard changes · Remove/untrack files · Branch ops (switch/create/AI-suggest/delete) · Commit log |
+| **AI** | Quick Commit (stage all → AI message → commit) · AI explain changes · AI summarize history (summary/changelog/release notes) · AI-assisted staging (per-file analysis) · Validate commit messages with AI fix suggestions |
+| **Tools** | Git graph in browser · Clean merged branches (local + remote) · Settings (provider/model/temperature) |
 
 ## Setup
 
+First run will guide you through provider setup automatically. You can also configure manually:
+
 ```bash
-gitbro              # Interactive mode will guide you through setup
-gitbro setup        # Or run setup directly
+gitbro setup        # Interactive setup
 gitbro setup ollama # Direct setup (openai/gemini/claude/ollama)
 ```
 
@@ -69,7 +83,7 @@ All features are also available as direct commands for scripting/automation:
 
 | Command | Alias | Description |
 |---------|-------|-------------|
-| `gitbro` | | **Interactive menu** (recommended) |
+| `gitbro` | | **Interactive TUI** (recommended) |
 | `gitbro commit` | `c` | Generate AI commit message |
 | `gitbro branch` | `b` | Suggest branch name |
 | `gitbro explain` | `e` | Explain code changes |
